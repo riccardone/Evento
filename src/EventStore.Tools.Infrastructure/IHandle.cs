@@ -1,7 +1,7 @@
 ﻿namespace EventStore.Tools.Infrastructure
 {
-    public interface IHandle<in TCommand> where TCommand : ICommand
+    public interface IHandle<in TMessage> where TMessage : IMessage
     {
-        IAggregate Handle(TCommand command);
+        IAggregate Handle(TMessage command);
     }
 }

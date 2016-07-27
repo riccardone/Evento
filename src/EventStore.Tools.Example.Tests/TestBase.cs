@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using EventStore.Tools.Example.Domain;
+using EventStore.Tools.Example.AppService;
 using EventStore.Tools.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,14 +10,14 @@ namespace EventStore.Tools.Example.Tests
     public class TestBase
     {
         private InMemoryDomainRespository _domainRepository;
-        private DomainEntry _domainEntry;
+        private MessageHandler _domainEntry;
         private Dictionary<string, IEnumerable<DomainEvent>> _preConditions = new Dictionary<string, IEnumerable<DomainEvent>>();
 
-        private DomainEntry BuildApplication()
+        private MessageHandler BuildApplication()
         {
             _domainRepository = new InMemoryDomainRespository();
             _domainRepository.AddEvents(_preConditions);
-            return new DomainEntry(_domainRepository);
+            return new MessageHandler(_domainRepository);
         }
 
         [ClassCleanup]
@@ -31,7 +30,7 @@ namespace EventStore.Tools.Example.Tests
         protected void When(ICommand command)
         {
             var application = BuildApplication();
-            application.ExecuteCommand(command);
+            application.Send(command);
         }
 
         protected void Then(params DomainEvent[] expectedEvents)

@@ -48,12 +48,12 @@ namespace EventStore.Tools.Example.Domain.Aggregates
             AssociateId = evt.AssociateId;
         }
 
-        internal static IAggregate Create(Guid id, Guid associateId)
+        public static IAggregate Create(Guid id, Guid associateId)
         {
             return new AssociateAccount(id, associateId);
         }
 
-        internal void RegisterIncome(decimal value, string description)
+        public void RegisterIncome(decimal value, string description)
         {
             var incomesTotal = Incomes.Select(a => a.Value).Sum() + value;
             var currentBalance = incomesTotal - Expenses.Select(a => a.Value).Sum();
@@ -61,7 +61,7 @@ namespace EventStore.Tools.Example.Domain.Aggregates
             RaiseEvent(new IncomeRegistered(Id, value, description, currentBalance));
         }
 
-        internal void RegisterExpense(decimal value, string description)
+        public void RegisterExpense(decimal value, string description)
         {
             var expensesTotal = Expenses.Select(a => a.Value).Sum() + value;
             var currentBalance = Incomes.Select(a => a.Value).Sum() - expensesTotal;

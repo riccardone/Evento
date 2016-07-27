@@ -3,16 +3,16 @@ using EventStore.Tools.Example.Domain.Aggregates;
 using EventStore.Tools.Example.Domain.Exceptions;
 using EventStore.Tools.Infrastructure;
 
-namespace EventStore.Tools.Example.Domain.CommandHandlers
+namespace EventStore.Tools.Example.AppService.CommandHandlers
 {
-    internal class AssociateAccountCommandHandler : 
+    internal class AssociateAccountHandler : 
         IHandle<CreateAssociateAccount>, 
         IHandle<RegisterIncome>,
         IHandle<RegisterExpense>
     {
         private readonly IDomainRepository _domainRepository;
 
-        public AssociateAccountCommandHandler(IDomainRepository domainRepository)
+        public AssociateAccountHandler(IDomainRepository domainRepository)
         {
             _domainRepository = domainRepository;
         }
@@ -21,8 +21,8 @@ namespace EventStore.Tools.Example.Domain.CommandHandlers
         {
             try
             {
-                _domainRepository.GetById<AssociateAccount>(command.AssociateAccountId.ToString());
-                throw new AssociateAccountAlreadExistsException(command.AssociateAccountId);
+                return _domainRepository.GetById<AssociateAccount>(command.AssociateAccountId.ToString());
+                //throw new AssociateAccountAlreadExistsException(command.AssociateAccountId);
             }
             catch (AggregateNotFoundException)
             {

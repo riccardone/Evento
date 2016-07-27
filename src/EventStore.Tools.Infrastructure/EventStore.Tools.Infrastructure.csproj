@@ -39,6 +39,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,15 +50,19 @@
   <ItemGroup>
     <Compile Include="AggregateBase.cs" />
     <Compile Include="AggregateNotFoundException.cs" />
-    <Compile Include="CommandDispatcher.cs" />
+    <Compile Include="Bus.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="DomainEvent.cs" />
     <Compile Include="DomainRepositoryBase.cs" />
     <Compile Include="EventStoreDomainRepository.cs" />
     <Compile Include="IAggregate.cs" />
+    <Compile Include="IBus.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IdGenerator.cs" />
     <Compile Include="IDomainRepository.cs" />
+    <Compile Include="IEvent.cs" />
     <Compile Include="IHandle.cs" />
+    <Compile Include="IMessage.cs" />
     <Compile Include="InMemoryDomainRepository.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
