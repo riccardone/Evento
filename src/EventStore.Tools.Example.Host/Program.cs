@@ -12,9 +12,9 @@ namespace EventStore.Tools.Example.Host
             {
                 var conn = Configuration.CreateConnection();
                 var repo = new EventStoreDomainRepository("Example", conn);
-                x.Service<AppPlugin>(s =>
+                x.Service<AppServiceStrategy>(s =>
                 {
-                    s.ConstructUsing(name => new AppPlugin());
+                    s.ConstructUsing(name => new AppServiceStrategy());
                     s.WhenStarted(
                         (tc, hostControl) =>
                             tc.Start(repo, conn));

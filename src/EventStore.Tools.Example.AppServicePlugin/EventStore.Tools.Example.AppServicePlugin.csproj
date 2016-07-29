@@ -47,10 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppPlugin.cs" />
-    <Compile Include="AppStrategyFactory.cs" />
-    <Compile Include="CommandHandlers\AssociateAccountHandler.cs" />
-    <Compile Include="MessageHandler.cs" />
+    <Compile Include="AppServiceStrategy.cs" />
+    <Compile Include="AppServiceStrategyFactory.cs" />
+    <Compile Include="AssociateAccountService.cs" />
+    <Compile Include="DomainEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace EventStore.Tools.Infrastructure
 {
-    public class Bus
+    public class Bus : IBus
     {
         private readonly Dictionary<Type, Func<object, IAggregate>> _routes;
         private readonly IDomainRepository _domainRepository;
@@ -34,12 +34,12 @@ namespace EventStore.Tools.Infrastructure
         public void Send<TCommand>(TCommand command) where TCommand : ICommand
         {
             var commandType = command.GetType();
-
-            RunPreExecutionPipe(command);
             if (!_routes.ContainsKey(commandType))
             {
-                throw new ApplicationException("Missing handler for " + commandType.Name);
+                return;
+                //throw new ApplicationException("Missing handler for " + commandType.Name);
             }
+            RunPreExecutionPipe(command);
             var aggregate = _routes[commandType](command);
             var savedEvents = _domainRepository.Save(aggregate);
             RunPostExecutionPipe(savedEvents);
@@ -48,12 +48,12 @@ namespace EventStore.Tools.Infrastructure
         public void Publish<TEvent>(TEvent evt) where TEvent : IEvent
         {
             var commandType = evt.GetType();
-
-            RunPreExecutionPipe(evt);
             if (!_routes.ContainsKey(commandType))
             {
-                throw new ApplicationException("Missing handler for " + commandType.Name);
+                return;
+                //throw new ApplicationException("Missing handler for " + commandType.Name);
             }
+            RunPreExecutionPipe(evt);
             var aggregate = _routes[commandType](evt);
             var savedEvents = _domainRepository.Save(aggregate);
             RunPostExecutionPipe(savedEvents);

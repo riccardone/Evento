@@ -10,21 +10,21 @@ namespace EventStore.Tools.Example.Tests
     public class TestBase
     {
         private InMemoryDomainRespository _domainRepository;
-        private MessageHandler _domainEntry;
-        private Dictionary<string, IEnumerable<DomainEvent>> _preConditions = new Dictionary<string, IEnumerable<DomainEvent>>();
+        private DomainEntry _domainEntry;
+        private Dictionary<string, IEnumerable<IEvent>> _preConditions = new Dictionary<string, IEnumerable<IEvent>>();
 
-        private MessageHandler BuildApplication()
+        private DomainEntry BuildApplication()
         {
             _domainRepository = new InMemoryDomainRespository();
             _domainRepository.AddEvents(_preConditions);
-            return new MessageHandler(_domainRepository);
+            return new DomainEntry(_domainRepository);
         }
 
         [ClassCleanup]
         public void TearDown()
         {
             IdGenerator.GenerateGuid = null;
-            _preConditions = new Dictionary<string, IEnumerable<DomainEvent>>();
+            _preConditions = new Dictionary<string, IEnumerable<IEvent>>();
         }
 
         protected void When(ICommand command)
@@ -33,7 +33,7 @@ namespace EventStore.Tools.Example.Tests
             application.Send(command);
         }
 
-        protected void Then(params DomainEvent[] expectedEvents)
+        protected void Then(params IEvent[] expectedEvents)
         {
             var latestEvents = _domainRepository.GetLatestEvents().ToList();
             var expectedEventsList = expectedEvents.ToList();
@@ -57,7 +57,7 @@ namespace EventStore.Tools.Example.Tests
             }
         }
 
-        protected void Given(params DomainEvent[] existingEvents)
+        protected void Given(params IEvent[] existingEvents)
         {
             _preConditions = existingEvents
                 .GroupBy(y => y.Id)

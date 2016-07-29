@@ -6,25 +6,22 @@ using EventStore.Tools.PluginModel;
 
 namespace EventStore.Tools.Example.AppServicePlugin
 {
-    // TODO use MEF without reference plugin lib
-    // look at this post
-    // http://stackoverflow.com/a/13519514
-    public class AppPlugin : IServiceStrategy
+    public class AppServiceStrategy : IServiceStrategy
     {
         private IEventStoreConnection _connection;
         private Position? _latestPosition;
-        private MessageHandler _messageHandler;
+        private DomainEntry _domainEntry;
 
         public void Stop() { }
 
         public bool Start(IDomainRepository domainRepository, IEventStoreConnection connection, IEnumerable<Action<ICommand>> preExecutionPipe = null, IEnumerable<Action<object>> postExecutionPipe = null)
         {
             _connection = connection;
-            _messageHandler = new MessageHandler(domainRepository, preExecutionPipe, postExecutionPipe);
+            _domainEntry = new DomainEntry(domainRepository, preExecutionPipe, postExecutionPipe);
             _latestPosition = Position.Start;
             var settings = new CatchUpSubscriptionSettings(10, 100, false, true);
             _connection.SubscribeToAllFrom(_latestPosition, settings, HandleEvent);
-            // TODO instantiate domainentry and subscribe all 
+            Console.WriteLine("AppServiceStrategy started");
             return true;
         }
 
@@ -39,12 +36,13 @@ namespace EventStore.Tools.Example.AppServicePlugin
             if (@event is IMessage)
             {
                 if (@event is IEvent)
-                    _messageHandler.Publish(@event as IEvent);
+                    _domainEntry.Publish(@event as IEvent);
                 if (@event is ICommand)
-                    _messageHandler.Send(@event as ICommand);
+                    _domainEntry.Send(@event as ICommand);
             }
             _latestPosition = arg2.OriginalPosition;
 
+            // TODO implement save position feature
             //if (@event == null || !_latestPosition.HasValue) return;
 
             //var eventType2 = @event.GetType();

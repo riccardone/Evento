@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EventStore.Tools.Example.AppServicePlugin.CommandHandlers;
 using EventStore.Tools.Example.Contracts.Commands;
 using EventStore.Tools.Infrastructure;
 
 namespace EventStore.Tools.Example.AppServicePlugin
 {
-    public class MessageHandler
+    public class DomainEntry
     {
         private readonly Bus _bus;
 
-        public MessageHandler(IDomainRepository domainRepository, IEnumerable<Action<ICommand>> preExecutionPipe = null, IEnumerable<Action<object>> postExecutionPipe = null)
+        public DomainEntry(IDomainRepository domainRepository, IEnumerable<Action<ICommand>> preExecutionPipe = null, IEnumerable<Action<object>> postExecutionPipe = null)
         {
             preExecutionPipe = preExecutionPipe ?? Enumerable.Empty<Action<ICommand>>();
             postExecutionPipe = CreatePostExecutionPipe(postExecutionPipe);
@@ -22,7 +21,7 @@ namespace EventStore.Tools.Example.AppServicePlugin
         {
             var bus = new Bus(domainRepository, preExecutionPipe, postExecutionPipe);
 
-            var associateAccountCommandHandler = new AssociateAccountHandler(domainRepository);
+            var associateAccountCommandHandler = new AssociateAccountService(domainRepository);
             bus.RegisterCommandHandler<CreateAssociateAccount>(associateAccountCommandHandler);
             bus.RegisterCommandHandler<RegisterIncome>(associateAccountCommandHandler);
             bus.RegisterCommandHandler<RegisterExpense>(associateAccountCommandHandler);

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using EventStore.ClientAPI.Exceptions;
 using Newtonsoft.Json;
 
@@ -10,7 +8,7 @@ namespace EventStore.Tools.Infrastructure
     public class InMemoryDomainRespository : DomainRepositoryBase
     {
         public Dictionary<string, List<string>> EventStore = new Dictionary<string, List<string>>();
-        private readonly List<DomainEvent> _latestEvents = new List<DomainEvent>();
+        private readonly List<IEvent> _latestEvents = new List<IEvent>();
         private readonly JsonSerializerSettings _serializationSettings;
 
         public InMemoryDomainRespository()
@@ -21,7 +19,7 @@ namespace EventStore.Tools.Infrastructure
             };
         }
 
-        public override IEnumerable<DomainEvent> Save<TAggregate>(TAggregate aggregate)
+        public override IEnumerable<IEvent> Save<TAggregate>(TAggregate aggregate)
         {
             var eventsToSave = aggregate.UncommitedEvents().ToList();
             var serializedEvents = eventsToSave.Select(Serialize).ToList();
@@ -46,17 +44,12 @@ namespace EventStore.Tools.Infrastructure
             return eventsToSave;
         }
 
-        public override Task SaveAsynch<TAggregate>(TAggregate aggregate)
-        {
-           throw new NotImplementedException();
-        }
-
-        private string Serialize(DomainEvent arg)
+        private string Serialize(IEvent arg)
         {
             return JsonConvert.SerializeObject(arg, _serializationSettings);
         }
 
-        public IEnumerable<DomainEvent> GetLatestEvents()
+        public IEnumerable<IEvent> GetLatestEvents()
         {
             return _latestEvents;
         }
@@ -66,27 +59,18 @@ namespace EventStore.Tools.Infrastructure
             if (EventStore.ContainsKey(id))
             {
                 var events = EventStore[id];
-                var deserializedEvents = events.Select(e => JsonConvert.DeserializeObject(e, _serializationSettings) as DomainEvent);
+                var deserializedEvents = events.Select(e => JsonConvert.DeserializeObject(e, _serializationSettings) as IEvent);
                 return BuildAggregate<TResult>(deserializedEvents);
             }
             throw new AggregateNotFoundException("Could not found aggregate of type " + typeof(TResult) + " and id " + id);
         }
 
-        public void AddEvents(Dictionary<string, IEnumerable<DomainEvent>> eventsForAggregates)
+        public void AddEvents(Dictionary<string, IEnumerable<IEvent>> eventsForAggregates)
         {
             foreach (var eventsForAggregate in eventsForAggregates)
             {
                 EventStore.Add(eventsForAggregate.Key, eventsForAggregate.Value.Select(Serialize).ToList());
             }
-        }
-
-        public override void Save(IEnumerable<object> messages, string streamName)
-        {
-            var enumerable = messages as object[] ?? messages.ToArray();
-            if (messages == null || !enumerable.Any())
-                return;
-            //var events = enumerable.Select(CreateEventData).ToList();
-            //Connection.AppendToStreamAsync(streamName, -1, events);
         }
     }
 }

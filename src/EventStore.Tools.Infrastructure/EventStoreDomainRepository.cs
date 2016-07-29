@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using EventStore.ClientAPI;
 using Newtonsoft.Json;
 
@@ -24,16 +23,7 @@ namespace EventStore.Tools.Infrastructure
             return $"{Category}-{type.Name}-{id}";
         }
 
-        public override void Save(IEnumerable<object> messages, string streamName)
-        {
-            var enumerable = messages as object[] ?? messages.ToArray();
-            if (messages == null || !enumerable.Any())
-                return;
-            var events = enumerable.Select(CreateEventData).ToList();
-            _connection.AppendToStreamAsync(streamName, -1, events);
-        }
-
-        public override IEnumerable<DomainEvent> Save<TAggregate>(TAggregate aggregate)
+        public override IEnumerable<IEvent> Save<TAggregate>(TAggregate aggregate)
         {
             var events = aggregate.UncommitedEvents().ToList();
             var originalVersion = CalculateExpectedVersion(aggregate, events); //aggregate.Version - events.Count;
@@ -45,20 +35,6 @@ namespace EventStore.Tools.Infrastructure
                 _connection.AppendToStreamAsync(streamName, expectedVersion, eventData);
             }
             return events;
-        }
-
-        public override Task SaveAsynch<TAggregate>(TAggregate aggregate)
-        {
-            var events = aggregate.UncommitedEvents().ToList();
-            var originalVersion = CalculateExpectedVersion(aggregate, events); //aggregate.Version - events.Count;
-            var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion; //originalVersion == 0 ? ExpectedVersion.NoStream : originalVersion - 1;
-            var eventData = events.Select(CreateEventData);
-            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
-            if (events.Count > 0)
-            {
-                return _connection.AppendToStreamAsync(streamName, expectedVersion, eventData);
-            }
-            return null;
         }
 
         public override TResult GetById<TResult>(string id) 
@@ -73,7 +49,7 @@ namespace EventStore.Tools.Infrastructure
             {
                 var metadata = SerializationUtils.DeserializeObject<Dictionary<string, string>>(e.OriginalEvent.Metadata);
                 var eventData = SerializationUtils.DeserializeObject(e.OriginalEvent.Data, metadata[SerializationUtils.EventClrTypeHeader]);
-                return eventData as DomainEvent;
+                return eventData as IEvent;
             });
             return BuildAggregate<TResult>(deserializedEvents);
         }

@@ -3,9 +3,11 @@ using EventStore.Tools.Infrastructure;
 
 namespace EventStore.Tools.Example.Contracts.Events
 {
-    public class AssociateAccountCreated : DomainEvent
+    public class AssociateAccountCreated : IEvent
     {
         public Guid AssociateId { get; }
+
+        public string Id { get; }
 
         public AssociateAccountCreated(Guid associateAccountId, Guid associateId)
         {

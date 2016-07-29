@@ -21,8 +21,8 @@ namespace EventStore.Tools.Infrastructure
         }
 
 
-        private List<DomainEvent> _uncommitedEvents = new List<DomainEvent>();
-        private Dictionary<Type, Action<DomainEvent>> _routes = new Dictionary<Type, Action<DomainEvent>>();
+        private List<IEvent> _uncommitedEvents = new List<IEvent>();
+        private Dictionary<Type, Action<IEvent>> _routes = new Dictionary<Type, Action<IEvent>>();
         private int version = -1;
 
         protected void RegisterTransition<T>(Action<T> transition) where T : class
@@ -31,13 +31,13 @@ namespace EventStore.Tools.Infrastructure
         }
 
 
-        public void RaiseEvent(DomainEvent @event)
+        public void RaiseEvent(IEvent @event)
         {
             ApplyEvent(@event);
             _uncommitedEvents.Add(@event);
         }
 
-        public void ApplyEvent(DomainEvent @event)
+        public void ApplyEvent(IEvent @event)
         {
             var eventType = @event.GetType();
             if (_routes.ContainsKey(eventType))
@@ -47,7 +47,7 @@ namespace EventStore.Tools.Infrastructure
             Version++;
         }
 
-        public IEnumerable<DomainEvent> UncommitedEvents()
+        public IEnumerable<IEvent> UncommitedEvents()
         {
             return _uncommitedEvents;
         }
