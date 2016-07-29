@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("EventStore.Tools.Infrastructure")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This library contains an EventStore DomainRepository and a message Bus that can help to build event sourced components interacting with EventStore (GetEventStore)")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Riccardo Di Nuzzo")]
 [assembly: AssemblyProduct("EventStore.Tools.Infrastructure")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
