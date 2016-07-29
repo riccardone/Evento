@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EventStore.Tools.Example.AppService")]
+[assembly: AssemblyTitle("EventStore.Tools.Example.AppServicePlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EventStore.Tools.Example.AppService")]
+[assembly: AssemblyProduct("EventStore.Tools.Example.AppServicePlugin")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4a995a7e-cb88-4491-9f53-64f41fa66e56")]
+[assembly: Guid("82b6144e-a36f-4eb7-82b3-56981a441cce")]
 
 // Version information for an assembly consists of the following four values:
 //

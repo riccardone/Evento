@@ -36,6 +36,10 @@
       <HintPath>..\packages\EventStore.Client.3.8.0\lib\net40\EventStore.ClientAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EventStore.Tools.PluginModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventStore.Tools.PluginModel.1.0.0\lib\net40\EventStore.Tools.PluginModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EventStore.Tools.Example.AppService\EventStore.Tools.Example.AppService.csproj">
-      <Project>{4a995a7e-cb88-4491-9f53-64f41fa66e56}</Project>
-      <Name>EventStore.Tools.Example.AppService</Name>
+    <ProjectReference Include="..\EventStore.Tools.Example.AppServicePlugin\EventStore.Tools.Example.AppServicePlugin.csproj">
+      <Project>{82b6144e-a36f-4eb7-82b3-56981a441cce}</Project>
+      <Name>EventStore.Tools.Example.AppServicePlugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\EventStore.Tools.Example.Contracts\EventStore.Tools.Example.Contracts.csproj">
       <Project>{cba775bd-02e5-4c5b-9751-5b88fcd624df}</Project>

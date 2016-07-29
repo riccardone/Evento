@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EventStore.Tools.Example.AppService.CommandHandlers;
+using EventStore.Tools.Example.AppServicePlugin.CommandHandlers;
 using EventStore.Tools.Example.Contracts.Commands;
 using EventStore.Tools.Infrastructure;
 
-namespace EventStore.Tools.Example.AppService
+namespace EventStore.Tools.Example.AppServicePlugin
 {
     public class MessageHandler
     {

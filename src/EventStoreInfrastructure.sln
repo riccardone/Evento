@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.Host", "EventStore.Tools.Example.Host\EventStore.Tools.Example.Host.csproj", "{5FBBB534-E39A-4931-9193-A2C12B0DF65C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.AppService", "EventStore.Tools.Example.AppService\EventStore.Tools.Example.AppService.csproj", "{4A995A7E-CB88-4491-9F53-64F41FA66E56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.AppServicePlugin", "EventStore.Tools.Example.AppServicePlugin\EventStore.Tools.Example.AppServicePlugin.csproj", "{82B6144E-A36F-4EB7-82B3-56981A441CCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{5FBBB534-E39A-4931-9193-A2C12B0DF65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FBBB534-E39A-4931-9193-A2C12B0DF65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FBBB534-E39A-4931-9193-A2C12B0DF65C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A995A7E-CB88-4491-9F53-64F41FA66E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A995A7E-CB88-4491-9F53-64F41FA66E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A995A7E-CB88-4491-9F53-64F41FA66E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A995A7E-CB88-4491-9F53-64F41FA66E56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82B6144E-A36F-4EB7-82B3-56981A441CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82B6144E-A36F-4EB7-82B3-56981A441CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82B6144E-A36F-4EB7-82B3-56981A441CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82B6144E-A36F-4EB7-82B3-56981A441CCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

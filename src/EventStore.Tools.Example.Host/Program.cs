@@ -1,4 +1,4 @@
-﻿using EventStore.Tools.Example.AppService;
+﻿using EventStore.Tools.Example.AppServicePlugin;
 using EventStore.Tools.Infrastructure;
 using Topshelf;
 

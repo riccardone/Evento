@@ -1,9 +1,8 @@
 ﻿using EventStore.Tools.Example.Contracts.Commands;
 using EventStore.Tools.Example.Domain.Aggregates;
-using EventStore.Tools.Example.Domain.Exceptions;
 using EventStore.Tools.Infrastructure;
 
-namespace EventStore.Tools.Example.AppService.CommandHandlers
+namespace EventStore.Tools.Example.AppServicePlugin.CommandHandlers
 {
     internal class AssociateAccountHandler : 
         IHandle<CreateAssociateAccount>, 

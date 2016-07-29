@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using EventStore.ClientAPI;
 using EventStore.Tools.Infrastructure;
+using EventStore.Tools.PluginModel;
 
-namespace EventStore.Tools.Example.AppService
+namespace EventStore.Tools.Example.AppServicePlugin
 {
     // TODO use MEF without reference plugin lib
     // look at this post
     // http://stackoverflow.com/a/13519514
-    public class AppPlugin
+    public class AppPlugin : IServiceStrategy
     {
         private IEventStoreConnection _connection;
         private Position? _latestPosition;
@@ -50,6 +51,14 @@ namespace EventStore.Tools.Example.AppService
 
             //if (_eventHandlerMapping.ContainsKey(eventType2))
             //    SavePosition(_latestPosition.Value);
+        }
+
+        public bool Start()
+        {
+            var connection = Configuration.CreateConnection();
+            var repo = new EventStoreDomainRepository("Example", connection);
+            Start(repo, connection);
+            return true;
         }
     }
 }
