@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Host\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,12 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EventStore.ClientAPI, Version=3.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EventStore.Client.3.8.0\lib\net40\EventStore.ClientAPI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="EventStore.Tools.PluginModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EventStore.Tools.PluginModel.1.0.0\lib\net40\EventStore.Tools.PluginModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EventStore.Tools.ServiceHost, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventStore.Tools.ServiceHost.1.2.0\lib\net40\EventStore.Tools.ServiceHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -51,31 +55,23 @@
       <HintPath>..\packages\Topshelf.3.3.1\lib\net40-full\Topshelf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Topshelf.Log4Net, Version=3.3.154.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Topshelf.Log4Net.3.3.1\lib\net40-full\Topshelf.Log4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EventStore.Tools.Example.AppServicePlugin\EventStore.Tools.Example.AppServicePlugin.csproj">
-      <Project>{82b6144e-a36f-4eb7-82b3-56981a441cce}</Project>
-      <Name>EventStore.Tools.Example.AppServicePlugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EventStore.Tools.Example.Contracts\EventStore.Tools.Example.Contracts.csproj">
-      <Project>{cba775bd-02e5-4c5b-9751-5b88fcd624df}</Project>
-      <Name>EventStore.Tools.Example.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EventStore.Tools.Example.Domain\EventStore.Tools.Example.Domain.csproj">
-      <Project>{096cb927-d025-4795-92e0-616100514543}</Project>
-      <Name>EventStore.Tools.Example.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj">
-      <Project>{7191c171-a94a-4153-9fd3-7dc7bfaca1b1}</Project>
-      <Name>EventStore.Tools.Infrastructure</Name>
-    </ProjectReference>
+    <Content Include="plugins\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

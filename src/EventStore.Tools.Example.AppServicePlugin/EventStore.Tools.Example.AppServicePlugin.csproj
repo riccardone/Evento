@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Host\plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -34,8 +34,16 @@
       <HintPath>..\packages\EventStore.Client.3.8.0\lib\net40\EventStore.ClientAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EventStore.Tools.Infrastructure, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventStore.Tools.Infrastructure.1.1.0\lib\net40\EventStore.Tools.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EventStore.Tools.PluginModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EventStore.Tools.PluginModel.1.0.0\lib\net40\EventStore.Tools.PluginModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,10 +72,6 @@
     <ProjectReference Include="..\EventStore.Tools.Example.Domain\EventStore.Tools.Example.Domain.csproj">
       <Project>{096cb927-d025-4795-92e0-616100514543}</Project>
       <Name>EventStore.Tools.Example.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj">
-      <Project>{7191c171-a94a-4153-9fd3-7dc7bfaca1b1}</Project>
-      <Name>EventStore.Tools.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
