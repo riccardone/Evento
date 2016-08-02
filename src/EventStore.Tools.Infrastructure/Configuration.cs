@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 using System.Net;
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.SystemData;
@@ -9,25 +12,41 @@ namespace EventStore.Tools.Infrastructure
     {
         public static IEventStoreConnection CreateConnection()
         {
-            return Connect();
+            return Connect(GetGossipEndPoints().ToArray());
         }
 
-        private static IEventStoreConnection Connect()
+        private static IEventStoreConnection Connect(IPEndPoint[] endpoints)
         {
-            ConnectionSettings settings =
-                ConnectionSettings.Create()
-                    .UseConsoleLogger()
-                    .SetDefaultUserCredentials(new UserCredentials(EventStoreUserName, EventStorePassword))
-                    .KeepReconnecting();
-            var endPoint = new IPEndPoint(EventStoreIp, EventStoreTcpPort);
-            var connection = EventStoreConnection.Create(settings, endPoint);
-            //var connection = EventStoreConnection.Create(settings,
-            //    ClusterSettings.Create()
-            //        .DiscoverClusterViaGossipSeeds()
-            //        .SetGossipSeedEndPoints(new IPEndPoint(EventStoreIp, 1114), new IPEndPoint(EventStoreIp, 2114),
-            //            new IPEndPoint(EventStoreIp, 3114)));
+            IEventStoreConnection connection;
+            if (endpoints.Length > 1)
+            {
+                connection = EventStoreConnection.Create(GetConnectionSettings(),
+                    ClusterSettings.Create()
+                        .DiscoverClusterViaGossipSeeds()
+                        .SetGossipSeedEndPoints(endpoints));
+            }
+            else
+            {
+                var endPoint = GetTcpEndpoints().First();
+                connection = EventStoreConnection.Create(GetConnectionSettings(), endPoint);
+            }
             connection.ConnectAsync();
             return connection;
+        }
+
+        private static ConnectionSettings GetConnectionSettings()
+        {
+            return ConnectionSettings.Create()
+                .UseConsoleLogger()
+                .SetDefaultUserCredentials(GetUserCredentials())
+                .WithConnectionTimeoutOf(TimeSpan.FromSeconds(5))
+                .KeepRetrying()
+                .KeepReconnecting();
+        }
+
+        private static UserCredentials GetUserCredentials()
+        {
+            return new UserCredentials(EventStoreUserName, EventStorePassword);
         }
 
         public static string EventStoreUserName
@@ -48,36 +67,32 @@ namespace EventStore.Tools.Infrastructure
             }
         }
 
-        public static IPAddress EventStoreIp
+        public static List<IPEndPoint> GetGossipEndPoints()
         {
-            get
+            var gossipEndpoints = new List<IPEndPoint>();
+            foreach (var key in ConfigurationManager.AppSettings.AllKeys.Where(a => a.StartsWith("EventStoreNode")))
             {
-                var hostname = ConfigurationManager.AppSettings["EventStoreHostName"];
-                if (string.IsNullOrEmpty(hostname))
-                {
-                    return IPAddress.Loopback;
-                }
-                var ipAddresses = Dns.GetHostAddresses(hostname);
-                return ipAddresses[0];
+                var nodeNumber = int.Parse(key.Substring("EventStoreNode".Length, 1));
+                var httpPort = int.Parse(ConfigurationManager.AppSettings[$"EventStoreNode{nodeNumber}HttpPort"]);
+                var hostAddress = Dns.GetHostAddresses(ConfigurationManager.AppSettings[$"EventStoreNode{nodeNumber}HostName"])[0];
+                if (!gossipEndpoints.Exists(a => a.Port == httpPort && Equals(a.Address, hostAddress)))
+                    gossipEndpoints.Add(new IPEndPoint(hostAddress, httpPort));
             }
+            return gossipEndpoints;
         }
 
-        public static int EventStoreTcpPort
+        private static List<IPEndPoint> GetTcpEndpoints()
         {
-            get
+            var gossipEndpoints = new List<IPEndPoint>();
+            foreach (var key in ConfigurationManager.AppSettings.AllKeys.Where(a => a.StartsWith("EventStoreNode")))
             {
-                var esPort = ConfigurationManager.AppSettings["EventStoreTcpPort"];
-                return string.IsNullOrEmpty(esPort) ? 1113 : int.Parse(esPort);
+                var nodeNumber = int.Parse(key.Substring("EventStoreNode".Length, 1));
+                var httpPort = int.Parse(ConfigurationManager.AppSettings[$"EventStoreNode{nodeNumber}TcpPort"]);
+                var hostAddress = Dns.GetHostAddresses(ConfigurationManager.AppSettings[$"EventStoreNode{nodeNumber}HostName"])[0];
+                if (!gossipEndpoints.Exists(a => a.Port == httpPort && Equals(a.Address, hostAddress)))
+                    gossipEndpoints.Add(new IPEndPoint(hostAddress, httpPort));
             }
-        }
-
-        public static int EventStoreHttpPort
-        {
-            get
-            {
-                var esPort = ConfigurationManager.AppSettings["EventStoreHttpPort"];
-                return string.IsNullOrEmpty(esPort) ? 2113 : int.Parse(esPort);
-            }
+            return gossipEndpoints;
         }
     }
 }

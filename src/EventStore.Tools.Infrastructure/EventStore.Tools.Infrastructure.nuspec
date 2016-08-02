@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>EventStore.Tools.Infrastructure</id>
+    <version>1.1.0.0</version>
+    <title>EventStore.Tools.Infrastructure</title>
+    <authors>Riccardo Di Nuzzo</authors>
+    <owners>Riccardo Di Nuzzo</owners>
+    <licenseUrl>https://github.com/riccardone/EventStore.Tools.Infrastructure/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/riccardone/EventStore.Tools.Infrastructure</projectUrl>    
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library contains an EventStore DomainRepository and a message Bus that can help to build event sourced components interacting with EventStore (GetEventStore)</description>
+    <releaseNotes>Load multiple nodes settings in case the client wants connect to an EventStore cluster</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>GetEventStore, DomainRepository, Message Bus, Command Handlers, Event Handlers</tags>
+  </metadata>
+</package>
