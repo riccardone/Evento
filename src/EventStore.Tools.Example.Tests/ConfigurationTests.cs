@@ -16,7 +16,7 @@ namespace EventStore.Tools.Example.Tests
             // Set up
 
             // Act
-            var res = Configuration.CreateConnection();
+            var res = Configuration.CreateConnection("test");
 
             // Verify
             Assert.IsNotNull(res);

@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EventStore.Tools.Example.Tests
 {
+    [TestClass]
     public class TestBase
     {
         private InMemoryDomainRespository _domainRepository;
