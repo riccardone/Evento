@@ -22,3 +22,22 @@ Add any other node element following the naming convention (EventStoreNode2..., 
 
 #Create an EventStore Connection
 
+```c#
+var connection = EventStore.Tools.Infrastructure.Configuration.CreateConnection("MyAdapterConnection");
+```
+
+#Use the DomainRepository
+
+The IDomainRepository interface expose two methods: 'Save' and GetById. The Save method take an IAggregate as parameter. This interface is also exposed by the library and can be used combined with the AggregateBase class.
+
+There are two available repositories: 
+1) EventStoreDomainRepository: this is used to interact with an EventStore service
+2) InMemoryDomainRepository: this is used for testing
+
+example creating an EventStoreDomainRepository
+```c#
+var repository = new EventStoreDomainRepository("MyApp", Configuration.CreateConnection("MyAdapterConnection"));
+```
+
+
+
