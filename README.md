@@ -19,3 +19,6 @@ In the config file of your Host program, add the following EventStore settings t
 ```
   
 Add any other node element following the naming convention (EventStoreNode2..., EventStoreNode3...)  
+
+#Create an EventStore Connection
+
