@@ -62,7 +62,7 @@ namespace EventStore.Tools.Infrastructure
                     SerializationUtils.EventClrTypeHeader, @event.GetType().AssemblyQualifiedName
                 },
                 {
-                    "Domain", "Cds"
+                    "Domain", Category
                 }
             };
             var eventDataHeaders = SerializeObject(eventHeaders);
