@@ -30,7 +30,7 @@ var connection = EventStore.Tools.Infrastructure.Configuration.CreateConnection(
 
 The IDomainRepository interface expose two methods: 'Save' and GetById. The Save method take an IAggregate as parameter. This interface is also exposed by the library and can be used combined with the AggregateBase class.  
   
-There are two available repositories: 
+There are two available repositories:  
 1) EventStoreDomainRepository: this is used to interact with an EventStore service  
 2) InMemoryDomainRepository: this is used for testing  
   
