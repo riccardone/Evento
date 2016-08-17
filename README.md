@@ -54,3 +54,34 @@ internal class AssociateAccountService :
     
 ```
 
+example implementing a IBus interface to dispatch messages (events and commands) to the service class  
+```c# 
+public class DomainEntry
+    {
+        private readonly Bus _bus;
+
+        public DomainEntry2(IDomainRepository domainRepository)
+        {
+            _bus = CreateBus(domainRepository);
+        }
+        private Bus CreateBus(IDomainRepository domainRepository)
+        {
+            var bus = new Bus(domainRepository, null, null);
+
+            var associateAccountCommandHandler = new AssociateAccountService(domainRepository);
+            bus.RegisterCommandHandler<CreateAssociateAccount>(associateAccountCommandHandler);
+            bus.RegisterCommandHandler<RegisterIncome>(associateAccountCommandHandler);
+            bus.RegisterCommandHandler<RegisterExpense>(associateAccountCommandHandler);
+
+            return bus;
+        }
+        public void Send<TCommand>(TCommand command) where TCommand : ICommand
+        {
+            _bus.Send(command);
+        }
+        public void Publish<TEvent>(TEvent evt) where TEvent : IEvent
+        {
+            _bus.Publish(evt);
+        }
+    }
+```
