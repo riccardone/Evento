@@ -7,7 +7,6 @@ PM> Install-Package EventStore.Tools.Infrastructure
 ```
 
 In the config file of your Host program, add the following EventStore settings to connect to a single node  
-
 ```xml 
 <appSettings>  
     <add key="EventStoreUserName" value="youruser" />  
@@ -17,8 +16,9 @@ In the config file of your Host program, add the following EventStore settings t
     <add key="EventStoreNode1HttpPort" value="2113" />  
 </appSettings>  
 ```
-  
 For multinode configuration add any other node element following the naming convention (EventStoreNode2..., EventStoreNode3...)  
+
+This library is a toolset. The following features can be combined or you can just pick the one that you need.
 
 #Create an EventStore Connection
 
