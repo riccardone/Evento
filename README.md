@@ -39,5 +39,18 @@ example creating an EventStoreDomainRepository
 var repository = new EventStoreDomainRepository("MyApp", Configuration.CreateConnection("MyAdapterConnection"));
 ```
 
-
+#Create message handlers with the IHandle interface  
+  
+  The IHandle interface offer the possibility to compose in a class all the handling functions for events and messages. You can create more than one class using this interface depending on the business features and boundaries.  
+  
+example implementing this interface in a service class  
+```c#
+internal class AssociateAccountService : 
+        IHandle<CreateAssociateAccount>, 
+        IHandle<RegisterIncome>,
+        IHandle<RegisterExpense>
+    { 
+    //...
+    
+```
 
