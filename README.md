@@ -82,5 +82,4 @@ public class DomainEntry
     }
 ```
 #Thank You
-A big thanks to Tomas Janson that long time ago inspired me with his article http://blog.2mas.xyz/ending-discussion-to-my-blog-series-about-cqrs-and-event-sourcing/ 
-and to Greg Young and all the EventStore team members for giving us this amazing tool
+A big thank you to Tomas Janson who a long time ago inspired me with his article http://blog.2mas.xyz/ending-discussion-to-my-blog-series-about-cqrs-and-event-sourcing/ and to Greg Young and all the EventStore team members for giving us this amazing tool
