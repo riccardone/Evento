@@ -60,7 +60,7 @@ public class DomainEntry
     {
         private readonly Bus _bus;
 
-        public DomainEntry2(IDomainRepository domainRepository)
+        public DomainEntry(IDomainRepository domainRepository)
         {
             _bus = CreateBus(domainRepository);
         }
@@ -78,10 +78,6 @@ public class DomainEntry
         public void Send<TCommand>(TCommand command) where TCommand : ICommand
         {
             _bus.Send(command);
-        }
-        public void Publish<TEvent>(TEvent evt) where TEvent : IEvent
-        {
-            _bus.Publish(evt);
         }
     }
 ```
