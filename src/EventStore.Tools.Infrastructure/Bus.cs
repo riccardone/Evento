@@ -85,5 +85,10 @@ namespace EventStore.Tools.Infrastructure
                 action(evt);
             }
         }
+
+        public bool CanHandle(Type t)
+        {
+            return _routes.ContainsKey(t);
+        }
     }
 }
