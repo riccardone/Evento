@@ -11,6 +11,8 @@ namespace EventStore.Tools.Example.AppServicePlugin
         private IEventStoreConnection _connection;
         private Position? _latestPosition;
         private DomainEntry _domainEntry;
+        private const string CheckpointId = "Es-ExamplePlugin";
+        private ICheckpointRepository _checkpointRepository;
 
         public void Stop() { }
 
@@ -18,7 +20,8 @@ namespace EventStore.Tools.Example.AppServicePlugin
         {
             _connection = connection;
             _domainEntry = new DomainEntry(domainRepository, preExecutionPipe, postExecutionPipe);
-            _latestPosition = Position.Start;
+            _checkpointRepository = new EventStoreCheckpointRepository(connection, CheckpointId);
+            _latestPosition = _checkpointRepository.Get();
             var settings = new CatchUpSubscriptionSettings(10, 100, false, true);
             _connection.SubscribeToAllFrom(_latestPosition, settings, HandleEvent);
             Console.WriteLine("AppServiceStrategy started");
@@ -32,7 +35,7 @@ namespace EventStore.Tools.Example.AppServicePlugin
             {
                 return;
             }
-            var eventType = @event.GetType(); // debug help
+            var eventType = @event.GetType(); 
             if (@event is IMessage)
             {
                 if (@event is IEvent)
@@ -41,14 +44,9 @@ namespace EventStore.Tools.Example.AppServicePlugin
                     _domainEntry.Send(@event as ICommand);
             }
             _latestPosition = arg2.OriginalPosition;
-
-            // TODO implement save position feature
-            //if (@event == null || !_latestPosition.HasValue) return;
-
-            //var eventType2 = @event.GetType();
-
-            //if (_eventHandlerMapping.ContainsKey(eventType2))
-            //    SavePosition(_latestPosition.Value);
+            
+            if (_latestPosition.HasValue && _domainEntry.CanHandle(eventType))
+                _checkpointRepository.Save(_latestPosition.Value);
         }
 
         public bool Start()

@@ -45,5 +45,10 @@ namespace EventStore.Tools.Example.AppServicePlugin
                 yield return action;
             }
         }
+
+        public bool CanHandle(Type t)
+        {
+            return _bus.CanHandle(t);
+        }
     }
 }

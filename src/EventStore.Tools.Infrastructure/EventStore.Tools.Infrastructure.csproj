@@ -53,9 +53,11 @@
     <Compile Include="Bus.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DomainRepositoryBase.cs" />
+    <Compile Include="EventStoreCheckpointRepository.cs" />
     <Compile Include="EventStoreDomainRepository.cs" />
     <Compile Include="IAggregate.cs" />
     <Compile Include="IBus.cs" />
+    <Compile Include="ICheckpointRepository.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IdGenerator.cs" />
     <Compile Include="IDomainRepository.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="IHandle.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="InMemoryDomainRepository.cs" />
+    <Compile Include="PositionChanged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializationUtils.cs" />
   </ItemGroup>
