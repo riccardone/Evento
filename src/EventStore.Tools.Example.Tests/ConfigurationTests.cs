@@ -21,5 +21,17 @@ namespace EventStore.Tools.Example.Tests
             // Verify
             Assert.IsNotNull(res);
         }
+
+        [TestMethod]
+        public void TestCreateClosedConnectionWithDefaultEndpoint()
+        {
+            // Set up
+
+            // Act
+            var res = Configuration.CreateConnection("test", null, false);
+
+            // Verify
+            Assert.IsNotNull(res);
+        }
     }
 }

@@ -12,17 +12,17 @@ namespace EventStore.Tools.Infrastructure
 {
     public static class Configuration
     {
-        public static IEventStoreConnection CreateConnection(string name, ConnectionSettings connectionSettings = null, bool isOpen = true)
+        public static IEventStoreConnection CreateConnection(string name, ConnectionSettings connectionSettings = null, bool openConnection = true)
         {
-            return Connect(GetGossipEndPoints().ToArray(), name, connectionSettings);
+            return Connect(GetGossipEndPoints().ToArray(), name, connectionSettings, openConnection);
         }
-        public static IEventStoreConnection CreateConnection(ConnectionSettings connectionSettings, bool isOpen = true)
+        public static IEventStoreConnection CreateConnection(ConnectionSettings connectionSettings, bool openConnection = true)
         {
-            return Connect(GetGossipEndPoints().ToArray(), null, connectionSettings);
+            return Connect(GetGossipEndPoints().ToArray(), null, connectionSettings, openConnection);
         }
-        public static IEventStoreConnection CreateConnection(bool isOpen = true) 
+        public static IEventStoreConnection CreateConnection(bool openConnection = true)
         {
-            return Connect(GetGossipEndPoints().ToArray());
+            return Connect(GetGossipEndPoints().ToArray(), null, null, openConnection);
         }
 
         public static ProjectionsManager CreateProjectionManager()
