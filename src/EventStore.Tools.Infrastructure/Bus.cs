@@ -15,7 +15,7 @@ namespace EventStore.Tools.Infrastructure
         public Bus(IDomainRepository domainRepository, IEnumerable<Action<ICommand>> preExecutionPipe, IEnumerable<Action<object>> postExecutionPipe, IEnumerable<Action<IEvent>> preExecutionEventPipe = null)
         {
             _domainRepository = domainRepository;
-            _postExecutionPipe = postExecutionPipe;
+            _postExecutionPipe = postExecutionPipe ?? Enumerable.Empty<Action<object>>();
             _preExecutionPipe = preExecutionPipe ?? Enumerable.Empty<Action<ICommand>>();
             _preExecutionEventPipe = preExecutionEventPipe ?? Enumerable.Empty<Action<IEvent>>();
             _routes = new Dictionary<Type, Func<object, IAggregate>>();
