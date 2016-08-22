@@ -51,7 +51,7 @@ namespace EventStore.Tools.Example.AppServicePlugin
 
         public bool Start()
         {
-            var connection = Configuration.CreateConnection();
+            var connection = Configuration.CreateConnection("ES-ExampleConnection", ConnectionSettings.Default);
             var repo = new EventStoreDomainRepository("Example", connection);
             Start(repo, connection);
             return true;

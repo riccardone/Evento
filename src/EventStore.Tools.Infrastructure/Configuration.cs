@@ -12,12 +12,15 @@ namespace EventStore.Tools.Infrastructure
 {
     public static class Configuration
     {
-        public static IEventStoreConnection CreateConnection(string name)
+        public static IEventStoreConnection CreateConnection(string name, ConnectionSettings connectionSettings = null, bool isOpen = true)
         {
-            return Connect(GetGossipEndPoints().ToArray(), name);
+            return Connect(GetGossipEndPoints().ToArray(), name, connectionSettings);
         }
-
-        public static IEventStoreConnection CreateConnection()
+        public static IEventStoreConnection CreateConnection(ConnectionSettings connectionSettings, bool isOpen = true)
+        {
+            return Connect(GetGossipEndPoints().ToArray(), null, connectionSettings);
+        }
+        public static IEventStoreConnection CreateConnection(bool isOpen = true) 
         {
             return Connect(GetGossipEndPoints().ToArray());
         }
@@ -30,12 +33,12 @@ namespace EventStore.Tools.Infrastructure
             return projectionsManager;
         }
 
-        private static IEventStoreConnection Connect(IPEndPoint[] endpoints, string name = null)
+        private static IEventStoreConnection Connect(IPEndPoint[] endpoints, string name = null, ConnectionSettings connectionSettings = null, bool isOpen = true)
         {
             IEventStoreConnection connection;
             if (endpoints.Length > 1)
             {
-                connection = EventStoreConnection.Create(GetConnectionSettings(),
+                connection = EventStoreConnection.Create(connectionSettings ?? GetConnectionSettings(),
                     ClusterSettings.Create()
                         .DiscoverClusterViaGossipSeeds()
                         .SetGossipSeedEndPoints(endpoints), name);
@@ -45,15 +48,15 @@ namespace EventStore.Tools.Infrastructure
                 var tcpPort = 1113;
                 if (ConfigurationManager.AppSettings["EventStoreNode1TcpPort"] != null)
                     tcpPort = int.Parse(ConfigurationManager.AppSettings["EventStoreNode1TcpPort"]);
-                connection = EventStoreConnection.Create(GetConnectionSettings(), new IPEndPoint(endpoints.First().Address, tcpPort), name);
+                connection = EventStoreConnection.Create(connectionSettings ?? GetConnectionSettings(), new IPEndPoint(endpoints.First().Address, tcpPort), name);
             }
             else
-                connection = EventStoreConnection.Create(GetConnectionSettings(), GetDefaultTcpEndpoint(), name);
+                connection = EventStoreConnection.Create(connectionSettings ?? GetConnectionSettings(), GetDefaultTcpEndpoint(), name);
 
-            connection.ConnectAsync().Wait();
+            if (isOpen)
+                connection.ConnectAsync().Wait();
             return connection;
         }
-
         private static ConnectionSettings GetConnectionSettings()
         {
             return ConnectionSettings.Create()
@@ -63,12 +66,10 @@ namespace EventStore.Tools.Infrastructure
                 .KeepRetrying()
                 .KeepReconnecting();
         }
-
         private static UserCredentials GetUserCredentials()
         {
             return new UserCredentials(EventStoreUserName, EventStorePassword);
         }
-
         private static string EventStoreUserName
         {
             get
@@ -77,7 +78,6 @@ namespace EventStore.Tools.Infrastructure
                 return string.IsNullOrEmpty(eventStoreUserName) ? "admin" : eventStoreUserName;
             }
         }
-
         private static string EventStorePassword
         {
             get
@@ -86,7 +86,6 @@ namespace EventStore.Tools.Infrastructure
                 return string.IsNullOrEmpty(eventStorePassword) ? "changeit" : eventStorePassword;
             }
         }
-
         private static List<IPEndPoint> GetGossipEndPoints()
         {
             var gossipEndpoints = new List<IPEndPoint>();
@@ -104,12 +103,10 @@ namespace EventStore.Tools.Infrastructure
             }
             return gossipEndpoints;
         }
-
         private static IPEndPoint GetDefaultTcpEndpoint()
         {
             return new IPEndPoint(IPAddress.Loopback, 1113);
         }
-
         private static IPEndPoint GetDefaultHttpEndpoint()
         {
             return new IPEndPoint(IPAddress.Loopback, 2113);
