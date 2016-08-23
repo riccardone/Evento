@@ -33,7 +33,7 @@ namespace EventStore.Tools.Infrastructure
             return projectionsManager;
         }
 
-        private static IEventStoreConnection Connect(IPEndPoint[] endpoints, string name = null, ConnectionSettings connectionSettings = null, bool isOpen = true)
+        private static IEventStoreConnection Connect(IPEndPoint[] endpoints, string name = null, ConnectionSettings connectionSettings = null, bool openConnection = true)
         {
             IEventStoreConnection connection;
             if (endpoints.Length > 1)
@@ -53,7 +53,7 @@ namespace EventStore.Tools.Infrastructure
             else
                 connection = EventStoreConnection.Create(connectionSettings ?? GetConnectionSettings(), GetDefaultTcpEndpoint(), name);
 
-            if (isOpen)
+            if (openConnection)
                 connection.ConnectAsync().Wait();
             return connection;
         }
@@ -66,7 +66,7 @@ namespace EventStore.Tools.Infrastructure
                 .KeepRetrying()
                 .KeepReconnecting();
         }
-        private static UserCredentials GetUserCredentials()
+        public static UserCredentials GetUserCredentials()
         {
             return new UserCredentials(EventStoreUserName, EventStorePassword);
         }
