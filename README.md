@@ -101,8 +101,6 @@ public class AssociateAccount : AggregateBase
 
         public AssociateAccount()
         {
-            Incomes = new List<Income>();
-            Expenses = new List<Expense>();
             RegisterTransition<AssociateAccountCreated>(Apply);
             RegisterTransition<IncomeRegistered>(Apply);
             RegisterTransition<ExpenseRegistered>(Apply);
