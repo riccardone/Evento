@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using EventStore.ClientAPI;
 
 namespace EventStore.Tools.Infrastructure
 {
@@ -20,5 +23,8 @@ namespace EventStore.Tools.Infrastructure
             }
             return result;
         }
+
+        public abstract Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
+            where TAggregate : IAggregate;
     }
 }

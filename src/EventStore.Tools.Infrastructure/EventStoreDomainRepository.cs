@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using EventStore.ClientAPI;
 using Newtonsoft.Json;
 
@@ -21,20 +22,6 @@ namespace EventStore.Tools.Infrastructure
         private string AggregateToStreamName(Type type, string id)
         {
             return $"{Category}-{type.Name}-{id}";
-        }
-
-        public override IEnumerable<IEvent> Save<TAggregate>(TAggregate aggregate)
-        {
-            var events = aggregate.UncommitedEvents().ToList();
-            var originalVersion = CalculateExpectedVersion(aggregate, events); //aggregate.Version - events.Count;
-            var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
-            var eventData = events.Select(CreateEventData);
-            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
-            if (events.Count > 0)
-            {
-                _connection.AppendToStreamAsync(streamName, expectedVersion, eventData);
-            }
-            return events;
         }
 
         public override TResult GetById<TResult>(string id) 
@@ -71,11 +58,35 @@ namespace EventStore.Tools.Infrastructure
             return eventData;
         }
 
-        private byte[] SerializeObject(object obj)
+        private static byte[] SerializeObject(object obj)
         {
             var jsonObj = JsonConvert.SerializeObject(obj);
             var data = Encoding.UTF8.GetBytes(jsonObj);
             return data;
+        }
+        
+        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
+        {
+            var events = aggregate.UncommitedEvents().ToList();
+            var originalVersion = CalculateExpectedVersion(aggregate, events); 
+            var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
+            var eventData = events.Select(CreateEventData);
+            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
+            return events.Count > 0 ? _connection.AppendToStreamAsync(streamName, expectedVersion, eventData) : null;
+        }
+
+        public override IEnumerable<IEvent> Save<TAggregate>(TAggregate aggregate)
+        {
+            var events = aggregate.UncommitedEvents().ToList();
+            var originalVersion = CalculateExpectedVersion(aggregate, events); 
+            var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
+            var eventData = events.Select(CreateEventData);
+            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
+            if (events.Count > 0)
+                _connection.AppendToStreamAsync(streamName, expectedVersion, eventData);
+            // Use the asynch version and clear the uncommitted events when it is completed
+            //aggregate.ClearUncommitedEvents();
+            return events;
         }
     }
 }

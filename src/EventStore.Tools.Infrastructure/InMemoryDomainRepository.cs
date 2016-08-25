@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using EventStore.ClientAPI;
 using EventStore.ClientAPI.Exceptions;
 using Newtonsoft.Json;
 
@@ -71,6 +74,11 @@ namespace EventStore.Tools.Infrastructure
             {
                 EventStore.Add(eventsForAggregate.Key, eventsForAggregate.Value.Select(Serialize).ToList());
             }
+        }
+
+        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
+        {
+            throw new NotImplementedException();
         }
     }
 }
