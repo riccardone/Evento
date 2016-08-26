@@ -110,6 +110,9 @@ public class AssociateAccount : AggregateBase
         {
             return new AssociateAccount(id, associateId);
         }
+        
+        // ....
+    }
 ```
 
 #Thank You
