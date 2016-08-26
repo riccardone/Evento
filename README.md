@@ -105,6 +105,12 @@ public class AssociateAccount : AggregateBase
             RegisterTransition<IncomeRegistered>(Apply);
             RegisterTransition<ExpenseRegistered>(Apply);
         }
+        
+        private void Apply(AssociateAccountCreated evt)
+        {
+            _id = new Guid(evt.Id);
+            _associateId = evt.AssociateId;
+        }
 
         public static IAggregate Create(Guid id, Guid associateId)
         {
