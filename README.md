@@ -87,11 +87,11 @@ public class DomainEntry
 ```c#
 public class AssociateAccount : AggregateBase
     {
-        public override string AggregateId => Id.ToString();
-        public Guid Id { get; private set; }
-        public Guid AssociateId { get; private set; }
-        public List<Income> Incomes { get; }
-        public List<Expense> Expenses { get; }
+        public override string AggregateId => _id.ToString();
+        private Guid _id;
+        private Guid _associateId;
+        private readonly List<Income> _incomes = new List<Income>();
+        private readonly List<Expense> _expenses = new List<Expense>();
         public decimal Balance { get; private set; }
 
         public AssociateAccount(Guid id, Guid associateId) : this()
@@ -104,6 +104,11 @@ public class AssociateAccount : AggregateBase
             RegisterTransition<AssociateAccountCreated>(Apply);
             RegisterTransition<IncomeRegistered>(Apply);
             RegisterTransition<ExpenseRegistered>(Apply);
+        }
+
+        public static IAggregate Create(Guid id, Guid associateId)
+        {
+            return new AssociateAccount(id, associateId);
         }
 ```
 
