@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/riccardone/EventStore.Tools.Infrastructure</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library contains an EventStore DomainRepository and a message Bus that can help to build event sourced components interacting with EventStore (GetEventStore)</description>
-    <releaseNotes>Load multiple nodes settings in case the client wants connect to an EventStore cluster</releaseNotes>
+    <releaseNotes>Added some overloads to IDomainRepository SaveAsync in order to set the metadata for a given Aggregate</releaseNotes>
     <copyright>Copyright 2016</copyright>
-    <tags>GetEventStore, DomainRepository, Message Bus, Command Handlers, Event Handlers</tags>
+    <tags>GetEventStore, DomainRepository, Message Bus, Command Handlers, Event Handlers, EventStore</tags>
   </metadata>
 </package>
