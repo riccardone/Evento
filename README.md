@@ -81,5 +81,45 @@ public class DomainEntry
         }
     }
 ```
+
+#Use AggregateBase and IAggregate to build your Aggregates  
+
+```c#
+public class AssociateAccount : AggregateBase
+    {
+        public override string AggregateId => _id.ToString();
+        private Guid _id;
+        private Guid _associateId;
+        private readonly List<Income> _incomes = new List<Income>();
+        private readonly List<Expense> _expenses = new List<Expense>();
+        public decimal Balance { get; private set; }
+
+        public AssociateAccount(Guid id, Guid associateId) : this()
+        {
+            RaiseEvent(new AssociateAccountCreated(id, associateId));
+        }
+
+        public AssociateAccount()
+        {
+            RegisterTransition<AssociateAccountCreated>(Apply);
+            RegisterTransition<IncomeRegistered>(Apply);
+            RegisterTransition<ExpenseRegistered>(Apply);
+        }
+        
+        private void Apply(AssociateAccountCreated evt)
+        {
+            _id = new Guid(evt.Id);
+            _associateId = evt.AssociateId;
+        }
+
+        public static IAggregate Create(Guid id, Guid associateId)
+        {
+            return new AssociateAccount(id, associateId);
+        }
+        
+        // ....
+    }
+```
+
 #Thank You
 A big thank you to Tomas Janson who a long time ago inspired me with his article http://blog.2mas.xyz/ending-discussion-to-my-blog-series-about-cqrs-and-event-sourcing/ and to Greg Young and all the EventStore team members for giving us this amazing tool
