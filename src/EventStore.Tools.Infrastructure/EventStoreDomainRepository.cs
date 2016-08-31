@@ -64,29 +64,40 @@ namespace EventStore.Tools.Infrastructure
             var data = Encoding.UTF8.GetBytes(jsonObj);
             return data;
         }
-        
-        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
-        {
-            var events = aggregate.UncommitedEvents().ToList();
-            var originalVersion = CalculateExpectedVersion(aggregate, events); 
-            var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
-            var eventData = events.Select(CreateEventData);
-            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
-            return events.Count > 0 ? _connection.AppendToStreamAsync(streamName, expectedVersion, eventData) : null;
-        }
 
         public override IEnumerable<IEvent> Save<TAggregate>(TAggregate aggregate)
         {
             var events = aggregate.UncommitedEvents().ToList();
-            var originalVersion = CalculateExpectedVersion(aggregate, events); 
+            var originalVersion = CalculateExpectedVersion(aggregate, events);
             var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
             var eventData = events.Select(CreateEventData);
             var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
             if (events.Count > 0)
-                _connection.AppendToStreamAsync(streamName, expectedVersion, eventData);
-            // Use the asynch version and clear the uncommitted events when it is completed
-            //aggregate.ClearUncommitedEvents();
+                _connection.AppendToStreamAsync(streamName, expectedVersion, eventData).Wait();
+            aggregate.ClearUncommitedEvents();
             return events;
+        }
+
+        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
+        {
+            return SaveAsync(aggregate, null);
+        }
+
+        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, StreamMetadata metadata)
+        {
+            return SaveAsync(aggregate, ExpectedVersion.Any, metadata);
+        }
+
+        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, int expectedMetastreamVersion, StreamMetadata metadata)
+        {
+            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
+            if (metadata != null)
+                _connection.SetStreamMetadataAsync(streamName, expectedMetastreamVersion, metadata).Wait();
+            var events = aggregate.UncommitedEvents().ToList();
+            var originalVersion = CalculateExpectedVersion(aggregate, events);
+            var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
+            var eventData = events.Select(CreateEventData);
+            return events.Count > 0 ? _connection.AppendToStreamAsync(streamName, expectedVersion, eventData) : null;
         }
     }
 }

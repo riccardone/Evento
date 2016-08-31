@@ -15,6 +15,25 @@ namespace EventStore.Tools.Infrastructure
         Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate) where TAggregate : IAggregate;
 
         /// <summary>
+        /// This method write events asynchronusly (metadata synchronously) and return a Task that can be used to wait and then do something example: youraggregate.CleanUncommittedEvents
+        /// </summary>
+        /// <typeparam name="TAggregate">IAggregate</typeparam>
+        /// <param name="aggregate">The Aggregate containing uncommitted events</param>
+        /// <param name="expectedMetastreamVersion">You can use the EventStore Client Api enum called ExpectedVersion to pass this param. It specify the behaviour in case the stream for example is expected to be already there or not.</param>
+        /// <param name="metadata">Use the StreamMetadataBuilder to build the metadata settings. Example: StreamMetadata.Build().SetMaxAge(...</param>
+        /// <returns>WriteResult from EventStore Client Api AppendToStreamAsync method</returns>
+        Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, int expectedMetastreamVersion, StreamMetadata metadata) where TAggregate : IAggregate;
+
+        /// <summary>
+        /// This method write events asynchronusly (metadata synchronously with ExpectedVersion.Any) and return a Task that can be used to wait and then do something example: youraggregate.CleanUncommittedEvents
+        /// </summary>
+        /// <typeparam name="TAggregate">IAggregate</typeparam>
+        /// <param name="aggregate">The Aggregate containing uncommitted events</param>
+        /// <param name="metadata">Use the StreamMetadataBuilder to build the metadata settings. Example: StreamMetadata.Build().SetMaxAge(...</param>
+        /// <returns>WriteResult from EventStore Client Api AppendToStreamAsync method</returns>
+        Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, StreamMetadata metadata) where TAggregate : IAggregate;
+
+        /// <summary>
         /// This method save uncommitted events using an Async operation on the EventStore ClientApi but it doesn't wait the end of it and as side effect it doesn't clean the uncommitted events
         /// </summary>
         /// <param name="aggregate">The Aggregate containing uncommitted events</param>
