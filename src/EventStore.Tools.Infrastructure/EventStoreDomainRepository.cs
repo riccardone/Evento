@@ -89,11 +89,6 @@ namespace EventStore.Tools.Infrastructure
 
         public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
         {
-            return SaveAsync(aggregate, _expectedVersion, _metadata);
-        }
-
-        private Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, int expectedMetastreamVersion, StreamMetadata metadata) where TAggregate : IAggregate
-        {
             var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
             SaveMetadata(streamName);
             var events = aggregate.UncommitedEvents().ToList();
