@@ -80,15 +80,5 @@ namespace EventStore.Tools.Infrastructure
         {
             throw new NotImplementedException();
         }
-
-        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, int expectedMetastreamVersion, StreamMetadata metadata)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, StreamMetadata metadata)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

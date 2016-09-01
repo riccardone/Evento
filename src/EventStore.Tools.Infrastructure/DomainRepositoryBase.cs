@@ -27,9 +27,9 @@ namespace EventStore.Tools.Infrastructure
         public abstract Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
             where TAggregate : IAggregate;
 
-        public abstract Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, int expectedMetastreamVersion,
-            StreamMetadata metadata) where TAggregate : IAggregate;
+        //public abstract Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, int expectedMetastreamVersion,
+        //    StreamMetadata metadata) where TAggregate : IAggregate;
 
-        public abstract Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, StreamMetadata metadata) where TAggregate : IAggregate;
+        //public abstract Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, StreamMetadata metadata) where TAggregate : IAggregate;
     }
 }

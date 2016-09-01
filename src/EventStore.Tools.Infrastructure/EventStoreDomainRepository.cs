@@ -12,11 +12,19 @@ namespace EventStore.Tools.Infrastructure
     {
         public readonly string Category;
         private readonly IEventStoreConnection _connection;
+        private readonly int _expectedVersion;
+        private readonly StreamMetadata _metadata;
 
-        public EventStoreDomainRepository(string category, IEventStoreConnection connection)
+        public EventStoreDomainRepository(string category, IEventStoreConnection connection, StreamMetadata metadata, int? expectedMetastreamVersion = null)
         {
             Category = category;
             _connection = connection;
+            _expectedVersion = expectedMetastreamVersion ?? ExpectedVersion.Any;
+            _metadata = metadata;
+        }
+
+        public EventStoreDomainRepository(string category, IEventStoreConnection connection) : this(category, connection, null)
+        {
         }
 
         private string AggregateToStreamName(Type type, string id)
@@ -67,11 +75,12 @@ namespace EventStore.Tools.Infrastructure
 
         public override IEnumerable<IEvent> Save<TAggregate>(TAggregate aggregate)
         {
+            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
+            SaveMetadata(streamName);
             var events = aggregate.UncommitedEvents().ToList();
             var originalVersion = CalculateExpectedVersion(aggregate, events);
             var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
             var eventData = events.Select(CreateEventData);
-            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
             if (events.Count > 0)
                 _connection.AppendToStreamAsync(streamName, expectedVersion, eventData).Wait();
             aggregate.ClearUncommitedEvents();
@@ -80,24 +89,25 @@ namespace EventStore.Tools.Infrastructure
 
         public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
         {
-            return SaveAsync(aggregate, null);
+            return SaveAsync(aggregate, _expectedVersion, _metadata);
         }
 
-        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, StreamMetadata metadata)
-        {
-            return SaveAsync(aggregate, ExpectedVersion.Any, metadata);
-        }
-
-        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, int expectedMetastreamVersion, StreamMetadata metadata)
+        private Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate, int expectedMetastreamVersion, StreamMetadata metadata) where TAggregate : IAggregate
         {
             var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
-            if (metadata != null)
-                _connection.SetStreamMetadataAsync(streamName, expectedMetastreamVersion, metadata).Wait();
+            SaveMetadata(streamName);
             var events = aggregate.UncommitedEvents().ToList();
             var originalVersion = CalculateExpectedVersion(aggregate, events);
             var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
             var eventData = events.Select(CreateEventData);
             return events.Count > 0 ? _connection.AppendToStreamAsync(streamName, expectedVersion, eventData) : null;
+        }
+
+        private void SaveMetadata(string streamName)
+        {
+            if (_metadata != null)
+                // Setting metadata for that specific stream asynchronously to avoid a blocking call
+                _connection.SetStreamMetadataAsync(streamName, _expectedVersion, _metadata);
         }
     }
 }
