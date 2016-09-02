@@ -36,8 +36,8 @@ namespace EventStore.Tools.Infrastructure
             var commandType = command.GetType();
             if (!_routes.ContainsKey(commandType))
             {
+                // Missing handler
                 return;
-                //throw new ApplicationException("Missing handler for " + commandType.Name);
             }
             RunPreExecutionPipe(command);
             var aggregate = _routes[commandType](command);
