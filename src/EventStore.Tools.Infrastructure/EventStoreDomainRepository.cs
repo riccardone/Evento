@@ -79,7 +79,7 @@ namespace EventStore.Tools.Infrastructure
             SaveMetadata(streamName);
             var events = aggregate.UncommitedEvents().ToList();
             var originalVersion = CalculateExpectedVersion(aggregate, events);
-            var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
+            var expectedVersion = originalVersion == 0 ? ExpectedVersion.NoStream : originalVersion - 1;
             var eventData = events.Select(CreateEventData);
             if (events.Count > 0)
                 _connection.AppendToStreamAsync(streamName, expectedVersion, eventData).Wait();
