@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>EventStore.Tools.Infrastructure</id>
-    <version>1.3.3.0</version>
+    <version>1.3.4.0</version>
     <title>EventStore.Tools.Infrastructure</title>
     <authors>Riccardo Di Nuzzo</authors>
     <owners>Riccardo Di Nuzzo</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/riccardone/EventStore.Tools.Infrastructure</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library contains an EventStore DomainRepository and a message Bus that can help to build event sourced components interacting with EventStore (GetEventStore)</description>
-    <releaseNotes>Fixed WrongExpectedVersion error during DomainRepository Save</releaseNotes>
+    <releaseNotes>Save events using ExpectedVersion.Any to swallow silently WrongExpectedVersion error</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>GetEventStore, DomainRepository, Message Bus, Command Handlers, Event Handlers, EventStore</tags>
   </metadata>
