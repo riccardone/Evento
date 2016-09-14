@@ -80,9 +80,17 @@ namespace EventStore.Tools.Infrastructure
             var events = aggregate.UncommitedEvents().ToList();
             var originalVersion = CalculateExpectedVersion(aggregate, events);
             var expectedVersion = originalVersion == 0 ? ExpectedVersion.NoStream : originalVersion - 1;
-            var eventData = events.Select(CreateEventData);
-            if (events.Count > 0)
-                _connection.AppendToStreamAsync(streamName, expectedVersion, eventData).Wait();
+            var eventData = events.Select(CreateEventData).ToArray();
+            try
+            {
+                if (events.Count > 0)
+                    _connection.AppendToStreamAsync(streamName, expectedVersion, eventData).Wait();
+            }
+            catch (AggregateException)
+            {
+                // Try to save using ExpectedVersion.Any to swallow silently WrongExpectedVersion error
+                _connection.AppendToStreamAsync(streamName, ExpectedVersion.Any, eventData).Wait();
+            }
             aggregate.ClearUncommitedEvents();
             return events;
         }
