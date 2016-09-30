@@ -1,5 +1,5 @@
 # EventStore.Tools.Infrastructure
-This C# library contains an EventStore DomainRepository and a message Bus that can help to build event sourced components interacting with GetEventStore https://github.com/EventStore  
+This C# library contains an EventStore DomainRepository and a message Bus that can help to build event sourced components interacting with GetEventStore https://github.com/EventStore/EventStore 
   
 You can reference this project building the source code or using Nuget  
 ```
