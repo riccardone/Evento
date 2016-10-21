@@ -79,7 +79,7 @@ namespace EventStore.Tools.Infrastructure
         public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
         {
             Save(aggregate);
-            return new Task<WriteResult>(() => new WriteResult());
+            return Task<WriteResult>.Factory.StartNew(() => new WriteResult());
         }
     }
 }
