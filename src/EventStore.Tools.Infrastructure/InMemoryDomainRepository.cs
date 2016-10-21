@@ -21,7 +21,6 @@ namespace EventStore.Tools.Infrastructure
                 TypeNameHandling = TypeNameHandling.All
             };
         }
-
         public override IEnumerable<IEvent> Save<TAggregate>(TAggregate aggregate)
         {
             var eventsToSave = aggregate.UncommitedEvents().ToList();
