@@ -78,7 +78,8 @@ namespace EventStore.Tools.Infrastructure
 
         public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
         {
-            throw new NotImplementedException();
+            Save(aggregate);
+            return new Task<WriteResult>(() => new WriteResult());
         }
     }
 }
