@@ -26,7 +26,7 @@ This library is a toolset. The following features can be combined or you can jus
 var connection = EventStore.Tools.Infrastructure.Configuration.CreateConnection("MyAdapterConnection");
 ```
 
-#Use the DomainRepository
+#Use the EventStore DomainRepository
 
 The IDomainRepository interface expose two methods: 'Save' and GetById. The Save method take an IAggregate as parameter. This interface is also exposed by the library and can be used combined with the AggregateBase class.  
   
