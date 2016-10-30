@@ -68,6 +68,7 @@
     <Compile Include="PositionChanged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializationUtils.cs" />
+    <Compile Include="Utils\Ensure.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
