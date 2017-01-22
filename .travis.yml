@@ -2,7 +2,7 @@ language: csharp
 solution: EventStoreInfrastructure.sln
 install:
   - nuget restore src/EventStoreInfrastructure.sln
-  - nuget install NUnit.Runners -OutputDirectory testrunner
+  - nuget install NUnit.Runners -Version 3.6.0 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release src/EventStoreInfrastructure.sln
-  - mono ./testrunner/NUnit.Runners.*/tools/nunit-console.exe ./Infrastructure.Tests/bin/Release/Infrastructure.Tests.dll
+  - mono ./testrunner/NUnit.Runners.3.6.0/tools/nunit-console.exe ./Infrastructure.Tests/bin/Release/Infrastructure.Tests.dll
