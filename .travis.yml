@@ -1,16 +1,16 @@
 language: csharp
 solution: EventStoreInfrastructure.sln
-script:
-  - xbuild /p:Configuration=Debug src/EventStoreInfrastructure.sln
-before_install:
-  - sudo apt-get install nunit-console
-before_script:
-  - nuget restore src/EventStoreInfrastructure.sln
-after_script:
-  - nunit-console src/Infrastructure.Tests/bin/Release/Infrastructure.Tests.dll
-# install:
-#   - nuget restore src/EventStoreInfrastructure.sln
-#   - nuget install NUnit.ConsoleRunner -Version 3.6.0 -OutputDirectory testrunner
 # script:
-#   - xbuild /p:Configuration=Release src/EventStoreInfrastructure.sln
-#   - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe ./Infrastructure.Tests/bin/Release/Infrastructure.Tests.dll
+#   - xbuild /p:Configuration=Debug src/EventStoreInfrastructure.sln
+# before_install:
+#   - sudo apt-get install nunit-console
+# before_script:
+#   - nuget restore src/EventStoreInfrastructure.sln
+# after_script:
+#   - nunit-console src/Infrastructure.Tests/bin/Release/Infrastructure.Tests.dll
+install:
+  - nuget restore src/EventStoreInfrastructure.sln
+  - nuget install NUnit.ConsoleRunner -Version 3.6.0 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release src/EventStoreInfrastructure.sln
+  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe src/Infrastructure.Tests/bin/Release/Infrastructure.Tests.dll
