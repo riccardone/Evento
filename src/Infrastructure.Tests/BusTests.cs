@@ -1,7 +1,8 @@
 ﻿using System;
+using EventStore.Tools.Infrastructure;
 using NUnit.Framework;
 
-namespace EventStore.Tools.Infrastructure.Tests
+namespace Infrastructure.Tests
 {
     [TestFixture]
     public class BusTests

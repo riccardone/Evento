@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C805B582-43F4-4809-8F41-EC3EB68B2C66}</ProjectGuid>
+    <ProjectGuid>{DC376187-B232-4D06-93D4-90524ED4CFAC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EventStore.Tools.Infrastructure.Tests</RootNamespace>
-    <AssemblyName>EventStore.Tools.Infrastructure.Tests</AssemblyName>
+    <RootNamespace>Infrastructure.Tests</RootNamespace>
+    <AssemblyName>Infrastructure.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
