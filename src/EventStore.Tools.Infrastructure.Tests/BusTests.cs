@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Xunit;
+using NUnit.Framework;
 
 namespace EventStore.Tools.Infrastructure.Tests
 {
+    [TestFixture]
     public class BusTests
     {
-        [Fact]
+        [Test]
         public void CreateBus()
         {
             var bus = new Bus(new InMemoryDomainRespository(), null, null);
