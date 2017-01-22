@@ -76,4 +76,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="Build" DependsOnTargets="$(BuildDependsOn)" Outputs="$(TargetPath)"/>
 </Project>
