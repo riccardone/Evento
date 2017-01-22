@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Infrastructure", "EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj", "{7191C171-A94A-4153-9FD3-7DC7BFACA1B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Infrastructure.Tests", "EventStore.Tools.Infrastructure.Tests\EventStore.Tools.Infrastructure.Tests.csproj", "{18956A70-9615-4B1A-9F2C-8007C67C315A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7191C171-A94A-4153-9FD3-7DC7BFACA1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7191C171-A94A-4153-9FD3-7DC7BFACA1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7191C171-A94A-4153-9FD3-7DC7BFACA1B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18956A70-9615-4B1A-9F2C-8007C67C315A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18956A70-9615-4B1A-9F2C-8007C67C315A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18956A70-9615-4B1A-9F2C-8007C67C315A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18956A70-9615-4B1A-9F2C-8007C67C315A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
