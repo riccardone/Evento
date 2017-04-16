@@ -6,8 +6,6 @@ namespace EventStore.Tools.Infrastructure
     public abstract class AggregateBase : IAggregate
     {
         public abstract string AggregateId { get; }
-
-
         public int Version
         {
             get
@@ -20,9 +18,8 @@ namespace EventStore.Tools.Infrastructure
             }
         }
 
-
-        private List<IEvent> _uncommitedEvents = new List<IEvent>();
-        private Dictionary<Type, Action<IEvent>> _routes = new Dictionary<Type, Action<IEvent>>();
+        private List<Event> _uncommitedEvents = new List<Event>();
+        private Dictionary<Type, Action<Event>> _routes = new Dictionary<Type, Action<Event>>();
         private int version = -1;
 
         protected void RegisterTransition<T>(Action<T> transition) where T : class
@@ -30,14 +27,13 @@ namespace EventStore.Tools.Infrastructure
             _routes.Add(typeof(T), o => transition(o as T));
         }
 
-
-        public void RaiseEvent(IEvent @event)
+        public void RaiseEvent(Event @event)
         {
             ApplyEvent(@event);
             _uncommitedEvents.Add(@event);
         }
 
-        public void ApplyEvent(IEvent @event)
+        public void ApplyEvent(Event @event)
         {
             var eventType = @event.GetType();
             if (_routes.ContainsKey(eventType))
@@ -47,7 +43,7 @@ namespace EventStore.Tools.Infrastructure
             Version++;
         }
 
-        public IEnumerable<IEvent> UncommitedEvents()
+        public IEnumerable<Event> UncommitedEvents()
         {
             return _uncommitedEvents;
         }

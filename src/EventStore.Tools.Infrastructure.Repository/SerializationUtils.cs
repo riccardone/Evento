@@ -4,7 +4,7 @@ using System.Text;
 using EventStore.ClientAPI;
 using Newtonsoft.Json;
 
-namespace EventStore.Tools.Infrastructure
+namespace EventStore.Tools.Infrastructure.Repository
 {
     public class SerializationUtils
     {
@@ -23,7 +23,7 @@ namespace EventStore.Tools.Infrastructure
                 var jsonString = Encoding.UTF8.GetString(data);
                 return JsonConvert.DeserializeObject(jsonString, Type.GetType(typeName));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return null;
