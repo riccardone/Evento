@@ -23,7 +23,7 @@ namespace EventStore.Tools.Infrastructure
                 var jsonString = Encoding.UTF8.GetString(data);
                 return JsonConvert.DeserializeObject(jsonString, Type.GetType(typeName));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return null;
