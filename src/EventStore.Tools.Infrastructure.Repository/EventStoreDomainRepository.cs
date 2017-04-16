@@ -2,25 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using EventStore.ClientAPI;
 using Newtonsoft.Json;
 
-namespace EventStore.Tools.Infrastructure
+namespace EventStore.Tools.Infrastructure.Repository
 {
     public class EventStoreDomainRepository : DomainRepositoryBase
     {
         public readonly string Category;
         private readonly IEventStoreConnection _connection;
-        private readonly int _expectedVersion;
-        private readonly StreamMetadata _metadata;
 
         public EventStoreDomainRepository(string category, IEventStoreConnection connection, StreamMetadata metadata, int? expectedMetastreamVersion = null)
         {
             Category = category;
             _connection = connection;
-            _expectedVersion = expectedMetastreamVersion ?? ExpectedVersion.Any;
-            _metadata = metadata;
         }
 
         public EventStoreDomainRepository(string category, IEventStoreConnection connection) : this(category, connection, null)
@@ -44,23 +39,26 @@ namespace EventStore.Tools.Infrastructure
             {
                 var metadata = SerializationUtils.DeserializeObject<Dictionary<string, string>>(e.OriginalEvent.Metadata);
                 var eventData = SerializationUtils.DeserializeObject(e.OriginalEvent.Data, metadata[SerializationUtils.EventClrTypeHeader]);
-                return eventData as IEvent;
+                return eventData as Event;
             });
             return BuildAggregate<TResult>(deserializedEvents);
         }
 
-        public EventData CreateEventData(object @event)
+        private EventData CreateEventData(object @event, string correlationId)
         {
-            var eventHeaders = new Dictionary<string, string>()
+            var metadata = new Dictionary<string, string>()
             {
                 {
                     SerializationUtils.EventClrTypeHeader, @event.GetType().AssemblyQualifiedName
                 },
                 {
                     "Domain", Category
+                },
+                {
+                    "$correlationId", correlationId
                 }
             };
-            var eventDataHeaders = SerializeObject(eventHeaders);
+            var eventDataHeaders = SerializeObject(metadata);
             var data = SerializeObject(@event);
             var eventData = new EventData(Guid.NewGuid(), @event.GetType().Name, true, data, eventDataHeaders);
             return eventData;
@@ -73,14 +71,14 @@ namespace EventStore.Tools.Infrastructure
             return data;
         }
 
-        public override IEnumerable<IEvent> Save<TAggregate>(TAggregate aggregate)
+        public override IEnumerable<Event> Save<TAggregate>(TAggregate aggregate, string correlationId) 
         {
-            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
-            SaveMetadata(streamName);
+            // Synchronous save operation
+            var streamName = AggregateToStreamName(aggregate.GetType(), correlationId);
             var events = aggregate.UncommitedEvents().ToList();
             var originalVersion = CalculateExpectedVersion(aggregate, events);
             var expectedVersion = originalVersion == 0 ? ExpectedVersion.NoStream : originalVersion - 1;
-            var eventData = events.Select(CreateEventData).ToArray();
+            var eventData = events.Select(@event => CreateEventData(@event, correlationId)).ToArray();
             try
             {
                 if (events.Count > 0)
@@ -93,24 +91,6 @@ namespace EventStore.Tools.Infrastructure
             }
             aggregate.ClearUncommitedEvents();
             return events;
-        }
-
-        public override Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
-        {
-            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
-            SaveMetadata(streamName);
-            var events = aggregate.UncommitedEvents().ToList();
-            var originalVersion = CalculateExpectedVersion(aggregate, events);
-            var expectedVersion = originalVersion == -1 ? ExpectedVersion.NoStream : originalVersion;
-            var eventData = events.Select(CreateEventData);
-            return events.Count > 0 ? _connection.AppendToStreamAsync(streamName, expectedVersion, eventData) : null;
-        }
-
-        private void SaveMetadata(string streamName)
-        {
-            if (_metadata != null)
-                // Setting metadata for that specific stream asynchronously to avoid a blocking call
-                _connection.SetStreamMetadataAsync(streamName, _expectedVersion, _metadata);
         }
     }
 }

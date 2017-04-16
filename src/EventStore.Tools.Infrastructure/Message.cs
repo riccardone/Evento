@@ -1,6 +1,6 @@
 ﻿namespace EventStore.Tools.Infrastructure
 {
-    public interface ICommand : IMessage
+    public interface Message
     {
     }
 }

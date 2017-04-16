@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EventStore.Tools.Infrastructure")]
-[assembly: AssemblyDescription("This library contains classes to build event sourced components interacting with EventStore (GetEventStore)")]
+[assembly: AssemblyTitle("EventStore.Tools.Infrastructure.Repository")]
+[assembly: AssemblyDescription("This library contains a concrete EventStoreDomainRepository that can interact with EventStore streams (getbyid, save)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Riccardo Di Nuzzo")]
-[assembly: AssemblyProduct("EventStore.Tools.Infrastructure")]
+[assembly: AssemblyProduct("EventStore.Tools.Infrastructure.Repository")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7191c171-a94a-4153-9fd3-7dc7bfaca1b1")]
+[assembly: Guid("080cb648-5de8-4bea-ba03-02e76c457acd")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

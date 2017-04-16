@@ -44,7 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusTests.cs" />
+    <Compile Include="Fakes\CreateFakeCommand.cs" />
+    <Compile Include="Fakes\FakeAggregate.cs" />
+    <Compile Include="Fakes\FakeAggregateCreated.cs" />
+    <Compile Include="Fakes\FakeHandler.cs" />
+    <Compile Include="HandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

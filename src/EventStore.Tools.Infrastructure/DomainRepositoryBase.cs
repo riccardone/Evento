@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using EventStore.ClientAPI;
+﻿using System.Collections.Generic;
 
 namespace EventStore.Tools.Infrastructure
 {
     public abstract class DomainRepositoryBase : IDomainRepository
     {
-        public abstract IEnumerable<IEvent> Save<TAggregate>(TAggregate aggregate) where TAggregate : IAggregate;
+        public abstract IEnumerable<Event> Save<TAggregate>(TAggregate aggregate, string correlationId) where TAggregate : IAggregate;
         public abstract TResult GetById<TResult>(string id) where TResult : IAggregate, new();
         protected int CalculateExpectedVersion<T>(IAggregate aggregate, List<T> events)
         {
             var expectedVersion = aggregate.Version - events.Count;
             return expectedVersion;
         }
-        protected TResult BuildAggregate<TResult>(IEnumerable<IEvent> events) where TResult : IAggregate, new()
+        protected TResult BuildAggregate<TResult>(IEnumerable<Event> events) where TResult : IAggregate, new()
         {
             var result = new TResult();
             foreach (var @event in events)
@@ -23,8 +20,5 @@ namespace EventStore.Tools.Infrastructure
             }
             return result;
         }
-
-        public abstract Task<WriteResult> SaveAsync<TAggregate>(TAggregate aggregate)
-            where TAggregate : IAggregate;
     }
 }
