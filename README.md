@@ -24,7 +24,12 @@ internal class AssociateAccountService :
 
 # EventStore.Tools.Infrastructure.Repository
 This .Net 4.6.1 C# library contains a concrete EventStoreDomainRepository with external dependencies to EventStore.Client v4.X and Newton.Json v10.X
-This library can be referenced and used in the top level host process application and injected into any Application Service that requires an IDomainRepository.
+This library can be referenced and used in the top level host process application and injected into any Application Service that requires an IDomainRepository.  
+
+You can reference this project using Nuget  
+```
+PM> Install-Package EventStore.Tools.Infrastructure  
+```  
 
 # Use the EventStore DomainRepository
 
@@ -76,4 +81,4 @@ public class AssociateAccount : AggregateBase
 ```
 
 # Thank You
-A big thank you to Tomas Janson who a long time ago inspired me with his article http://blog.2mas.xyz/ending-discussion-to-my-blog-series-about-cqrs-and-event-sourcing/ and to Greg Young and all the EventStore team members for giving us this amazing database
+A big thank you to Greg Young and the EventStore team for giving us this amazing database
