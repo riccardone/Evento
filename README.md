@@ -81,4 +81,4 @@ public class AssociateAccount : AggregateBase
 ```
 
 # Thank You
-A big thank you to Greg Young and the EventStore team for giving us this amazing database
+A big thank you to Greg Young and the EventStore team for giving us such a good database
