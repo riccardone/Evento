@@ -4,7 +4,7 @@ namespace EventStore.Tools.Infrastructure
 {
     public abstract class DomainRepositoryBase : IDomainRepository
     {
-        public abstract IEnumerable<Event> Save<TAggregate>(TAggregate aggregate, string correlationId) where TAggregate : IAggregate;
+        public abstract IEnumerable<Event> Save<TAggregate>(TAggregate aggregate) where TAggregate : IAggregate;
         public abstract TResult GetById<TResult>(string id) where TResult : IAggregate, new();
         protected int CalculateExpectedVersion<T>(IAggregate aggregate, List<T> events)
         {

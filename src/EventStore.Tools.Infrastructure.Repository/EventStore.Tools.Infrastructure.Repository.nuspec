@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>EventStore.Tools.Infrastructure.Repository</id>
-    <version>1.0.0.0</version>
+    <version>1.1.0.0</version>
     <title>EventStore.Tools.Infrastructure.Repository</title>
     <authors>Riccardo Di Nuzzo</authors>
     <owners>Riccardo Di Nuzzo</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/riccardone/EventStore.Tools.Infrastructure.Repository</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library contains an EventStoreDomainRepository based on a DomainRepository base class contained in EventStore.Tools.Infrastructure.Repository library. The two libraries combined are used to build Event Sourced components interacting with EventStore (GetEventStore)</description>
-    <releaseNotes>Start</releaseNotes>
+    <releaseNotes>Removed the correlationId from the Save IDomainRepository method and use AggregateId instead</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>GetEventStore, EventStore, DomainRepository, Repository, DDD</tags>
   </metadata>

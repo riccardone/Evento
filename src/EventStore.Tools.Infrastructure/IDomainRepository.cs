@@ -11,9 +11,8 @@ namespace EventStore.Tools.Infrastructure
         /// This synchronous method save all the uncommitted events of the passed aggregate 
         /// </summary>
         /// <param name="aggregate">The Aggregate containing uncommitted events</param>
-        /// <param name="correlationId">The id that links the events toghether in the same stream</param>
         /// <returns>All the events that have been sent to EventStore</returns>
-        IEnumerable<Event> Save<TAggregate>(TAggregate aggregate, string correlationId) where TAggregate : IAggregate;
+        IEnumerable<Event> Save<TAggregate>(TAggregate aggregate) where TAggregate : IAggregate;
 
         /// <summary>
         /// This method can be used to retrieve the Aggregate in it's current state (all previous events applied)

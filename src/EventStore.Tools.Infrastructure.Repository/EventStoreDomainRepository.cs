@@ -12,14 +12,10 @@ namespace EventStore.Tools.Infrastructure.Repository
         public readonly string Category;
         private readonly IEventStoreConnection _connection;
 
-        public EventStoreDomainRepository(string category, IEventStoreConnection connection, StreamMetadata metadata, int? expectedMetastreamVersion = null)
+        public EventStoreDomainRepository(string category, IEventStoreConnection connection) 
         {
             Category = category;
             _connection = connection;
-        }
-
-        public EventStoreDomainRepository(string category, IEventStoreConnection connection) : this(category, connection, null)
-        {
         }
 
         private string AggregateToStreamName(Type type, string id)
@@ -71,14 +67,14 @@ namespace EventStore.Tools.Infrastructure.Repository
             return data;
         }
 
-        public override IEnumerable<Event> Save<TAggregate>(TAggregate aggregate, string correlationId) 
+        public override IEnumerable<Event> Save<TAggregate>(TAggregate aggregate) 
         {
             // Synchronous save operation
-            var streamName = AggregateToStreamName(aggregate.GetType(), correlationId);
+            var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
             var events = aggregate.UncommitedEvents().ToList();
             var originalVersion = CalculateExpectedVersion(aggregate, events);
             var expectedVersion = originalVersion == 0 ? ExpectedVersion.NoStream : originalVersion - 1;
-            var eventData = events.Select(@event => CreateEventData(@event, correlationId)).ToArray();
+            var eventData = events.Select(@event => CreateEventData(@event, aggregate.AggregateId)).ToArray();
             try
             {
                 if (events.Count > 0)
