@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EventStore.Tools.Example.Host</RootNamespace>
     <AssemblyName>EventStore.Tools.Example.Host</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,18 +32,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EventStore.Tools.PluginModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EventStore.Tools.PluginModel.1.0.0\lib\net40\EventStore.Tools.PluginModel.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EventStore.Tools.ServiceHost, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EventStore.Tools.ServiceHost.1.2.0\lib\net40\EventStore.Tools.ServiceHost.dll</HintPath>
+    <Reference Include="EventStore.ClientAPI, Version=4.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventStore.Client.4.0.0\lib\net40\EventStore.ClientAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.5\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -51,12 +50,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Topshelf, Version=3.3.154.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Topshelf.3.3.1\lib\net40-full\Topshelf.dll</HintPath>
+    <Reference Include="Topshelf, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Topshelf.4.0.3\lib\net452\Topshelf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Topshelf.Log4Net, Version=3.3.154.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Topshelf.Log4Net.3.3.1\lib\net40-full\Topshelf.Log4Net.dll</HintPath>
+    <Reference Include="Topshelf.Log4Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Topshelf.Log4Net.4.0.3\lib\net452\Topshelf.Log4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -69,9 +68,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="plugins\readme.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\..\src\EventStore.Tools.Infrastructure.Repository\EventStore.Tools.Infrastructure.Repository.csproj">
+      <Project>{080cb648-5de8-4bea-ba03-02e76c457acd}</Project>
+      <Name>EventStore.Tools.Infrastructure.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj">
+      <Project>{7191c171-a94a-4153-9fd3-7dc7bfaca1b1}</Project>
+      <Name>EventStore.Tools.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EventStore.Tools.Example.AppService\EventStore.Tools.Example.AppService.csproj">
+      <Project>{dce98cfd-e29d-4a12-a724-9e49447e0576}</Project>
+      <Name>EventStore.Tools.Example.AppService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,7 +8,7 @@ namespace EventStore.Tools.Infrastructure
     public interface IDomainRepository
     {
         /// <summary>
-        /// This method save uncommitted events using an Async operation on the EventStore ClientApi but it doesn't wait the end of it and as side effect it doesn't clean the uncommitted events
+        /// This synchronous method save all the uncommitted events of the passed aggregate 
         /// </summary>
         /// <param name="aggregate">The Aggregate containing uncommitted events</param>
         /// <param name="correlationId">The id that links the events toghether in the same stream</param>
