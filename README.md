@@ -28,7 +28,7 @@ This library can be referenced and used in the top level host process applicatio
 
 You can reference this project using Nuget  
 ```
-PM> Install-Package EventStore.Tools.Infrastructure  
+PM> Install-Package EventStore.Tools.Infrastructure.Repository
 ```  
 
 # Use the EventStore DomainRepository
