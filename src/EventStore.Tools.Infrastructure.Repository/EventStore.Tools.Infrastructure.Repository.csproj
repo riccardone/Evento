@@ -57,12 +57,6 @@
     <None Include="EventStore.Tools.Infrastructure.Repository.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj">
-      <Project>{7191c171-a94a-4153-9fd3-7dc7bfaca1b1}</Project>
-      <Name>EventStore.Tools.Infrastructure</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

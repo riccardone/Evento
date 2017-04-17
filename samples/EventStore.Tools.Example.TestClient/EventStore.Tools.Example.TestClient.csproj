@@ -37,6 +37,10 @@
       <HintPath>..\packages\EventStore.Client.4.0.0\lib\net40\EventStore.ClientAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EventStore.Tools.Infrastructure, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventStore.Tools.Infrastructure.2.0.1\lib\net40\EventStore.Tools.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -60,10 +64,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj">
-      <Project>{7191c171-a94a-4153-9fd3-7dc7bfaca1b1}</Project>
-      <Name>EventStore.Tools.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EventStore.Tools.Example.Messages\EventStore.Tools.Example.Messages.csproj">
       <Project>{706e2c2b-90e0-4a80-9c4a-0476a0f68796}</Project>
       <Name>EventStore.Tools.Example.Messages</Name>

@@ -39,8 +39,20 @@
       <HintPath>..\packages\EventStore.Client.4.0.0\lib\net40\EventStore.ClientAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EventStore.Tools.Infrastructure, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventStore.Tools.Infrastructure.2.0.1\lib\net40\EventStore.Tools.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EventStore.Tools.Infrastructure.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventStore.Tools.Infrastructure.Repository.1.0.0\lib\net461\EventStore.Tools.Infrastructure.Repository.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -68,14 +80,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EventStore.Tools.Infrastructure.Repository\EventStore.Tools.Infrastructure.Repository.csproj">
-      <Project>{080cb648-5de8-4bea-ba03-02e76c457acd}</Project>
-      <Name>EventStore.Tools.Infrastructure.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj">
-      <Project>{7191c171-a94a-4153-9fd3-7dc7bfaca1b1}</Project>
-      <Name>EventStore.Tools.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EventStore.Tools.Example.AppService\EventStore.Tools.Example.AppService.csproj">
       <Project>{dce98cfd-e29d-4a12-a724-9e49447e0576}</Project>
       <Name>EventStore.Tools.Example.AppService</Name>

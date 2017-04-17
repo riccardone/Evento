@@ -34,6 +34,10 @@
       <HintPath>..\packages\EventStore.Client.4.0.0\lib\net40\EventStore.ClientAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EventStore.Tools.Infrastructure, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventStore.Tools.Infrastructure.2.0.1\lib\net40\EventStore.Tools.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -60,14 +64,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EventStore.Tools.Infrastructure.Repository\EventStore.Tools.Infrastructure.Repository.csproj">
-      <Project>{080cb648-5de8-4bea-ba03-02e76c457acd}</Project>
-      <Name>EventStore.Tools.Infrastructure.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj">
-      <Project>{7191c171-a94a-4153-9fd3-7dc7bfaca1b1}</Project>
-      <Name>EventStore.Tools.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EventStore.Tools.Example.Domain\EventStore.Tools.Example.Domain.csproj">
       <Project>{096cb927-d025-4795-92e0-616100514543}</Project>
       <Name>EventStore.Tools.Example.Domain</Name>

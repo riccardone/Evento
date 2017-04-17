@@ -46,6 +46,10 @@
       <HintPath>..\packages\EventStore.Client.4.0.0\lib\net40\EventStore.ClientAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EventStore.Tools.Infrastructure, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventStore.Tools.Infrastructure.2.0.1\lib\net40\EventStore.Tools.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.7.8.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.8\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -79,14 +83,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EventStore.Tools.Infrastructure.Repository\EventStore.Tools.Infrastructure.Repository.csproj">
-      <Project>{080cb648-5de8-4bea-ba03-02e76c457acd}</Project>
-      <Name>EventStore.Tools.Infrastructure.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj">
-      <Project>{7191c171-a94a-4153-9fd3-7dc7bfaca1b1}</Project>
-      <Name>EventStore.Tools.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EventStore.Tools.Example.AppService\EventStore.Tools.Example.AppService.csproj">
       <Project>{dce98cfd-e29d-4a12-a724-9e49447e0576}</Project>
       <Name>EventStore.Tools.Example.AppService</Name>
