@@ -54,6 +54,7 @@
     <Compile Include="SerializationUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="EventStore.Tools.Infrastructure.Repository.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
