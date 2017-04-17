@@ -3,15 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.AppServicePlugin", "EventStore.Tools.Example.AppServicePlugin\EventStore.Tools.Example.AppServicePlugin.csproj", "{82B6144E-A36F-4EB7-82B3-56981A441CCE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.Contracts", "EventStore.Tools.Example.Contracts\EventStore.Tools.Example.Contracts.csproj", "{CBA775BD-02E5-4C5B-9751-5B88FCD624DF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.Domain", "EventStore.Tools.Example.Domain\EventStore.Tools.Example.Domain.csproj", "{096CB927-D025-4795-92E0-616100514543}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.Host", "EventStore.Tools.Example.Host\EventStore.Tools.Example.Host.csproj", "{5FBBB534-E39A-4931-9193-A2C12B0DF65C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.Tests", "EventStore.Tools.Example.Tests\EventStore.Tools.Example.Tests.csproj", "{273810F9-BE6D-4247-9CED-9D06CA31B419}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Infrastructure", "..\src\EventStore.Tools.Infrastructure\EventStore.Tools.Infrastructure.csproj", "{7191C171-A94A-4153-9FD3-7DC7BFACA1B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Infrastructure.Repository", "..\src\EventStore.Tools.Infrastructure.Repository\EventStore.Tools.Infrastructure.Repository.csproj", "{080CB648-5DE8-4BEA-BA03-02E76C457ACD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.AppService", "EventStore.Tools.Example.AppService\EventStore.Tools.Example.AppService.csproj", "{DCE98CFD-E29D-4A12-A724-9E49447E0576}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.TestClient", "EventStore.Tools.Example.TestClient\EventStore.Tools.Example.TestClient.csproj", "{4343B584-F322-4965-BE9D-AEDE06E4B3DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Tools.Example.Messages", "EventStore.Tools.Example.Messages\EventStore.Tools.Example.Messages.csproj", "{706E2C2B-90E0-4A80-9C4A-0476A0F68796}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{82B6144E-A36F-4EB7-82B3-56981A441CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82B6144E-A36F-4EB7-82B3-56981A441CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82B6144E-A36F-4EB7-82B3-56981A441CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82B6144E-A36F-4EB7-82B3-56981A441CCE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBA775BD-02E5-4C5B-9751-5B88FCD624DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBA775BD-02E5-4C5B-9751-5B88FCD624DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBA775BD-02E5-4C5B-9751-5B88FCD624DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBA775BD-02E5-4C5B-9751-5B88FCD624DF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{096CB927-D025-4795-92E0-616100514543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{096CB927-D025-4795-92E0-616100514543}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{096CB927-D025-4795-92E0-616100514543}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +37,26 @@ Global
 		{273810F9-BE6D-4247-9CED-9D06CA31B419}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{273810F9-BE6D-4247-9CED-9D06CA31B419}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{273810F9-BE6D-4247-9CED-9D06CA31B419}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7191C171-A94A-4153-9FD3-7DC7BFACA1B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7191C171-A94A-4153-9FD3-7DC7BFACA1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7191C171-A94A-4153-9FD3-7DC7BFACA1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7191C171-A94A-4153-9FD3-7DC7BFACA1B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{080CB648-5DE8-4BEA-BA03-02E76C457ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{080CB648-5DE8-4BEA-BA03-02E76C457ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{080CB648-5DE8-4BEA-BA03-02E76C457ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{080CB648-5DE8-4BEA-BA03-02E76C457ACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCE98CFD-E29D-4A12-A724-9E49447E0576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCE98CFD-E29D-4A12-A724-9E49447E0576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCE98CFD-E29D-4A12-A724-9E49447E0576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCE98CFD-E29D-4A12-A724-9E49447E0576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4343B584-F322-4965-BE9D-AEDE06E4B3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4343B584-F322-4965-BE9D-AEDE06E4B3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4343B584-F322-4965-BE9D-AEDE06E4B3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4343B584-F322-4965-BE9D-AEDE06E4B3DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{706E2C2B-90E0-4A80-9C4A-0476A0F68796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{706E2C2B-90E0-4A80-9C4A-0476A0F68796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{706E2C2B-90E0-4A80-9C4A-0476A0F68796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{706E2C2B-90E0-4A80-9C4A-0476A0F68796}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

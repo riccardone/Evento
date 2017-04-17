@@ -1,17 +1,17 @@
-﻿using EventStore.Tools.Example.Contracts.Commands;
-using EventStore.Tools.Example.Domain.Aggregates;
+﻿using EventStore.Tools.Example.Domain.Aggregates;
+using EventStore.Tools.Example.Messages.Commands;
 using EventStore.Tools.Infrastructure;
 
-namespace EventStore.Tools.Example.AppServicePlugin
+namespace EventStore.Tools.Example.AppService
 {
-    internal class AssociateAccountService : 
+    public class AssociateAccountHandler : 
         IHandle<CreateAssociateAccount>, 
         IHandle<RegisterIncome>,
         IHandle<RegisterExpense>
     {
         private readonly IDomainRepository _domainRepository;
 
-        public AssociateAccountService(IDomainRepository domainRepository)
+        public AssociateAccountHandler(IDomainRepository domainRepository)
         {
             _domainRepository = domainRepository;
         }
@@ -20,24 +20,24 @@ namespace EventStore.Tools.Example.AppServicePlugin
         {
             try
             {
-                return _domainRepository.GetById<AssociateAccount>(command.AssociateAccountId.ToString());
+                return _domainRepository.GetById<AssociateAccount>(command.CorrelationId.ToString());
             }
             catch (AggregateNotFoundException)
             {
-                return AssociateAccount.Create(command.AssociateAccountId, command.AssociateId);
+                return AssociateAccount.Create(command.CorrelationId, command.AssociateId);
             }
         }
 
         public IAggregate Handle(RegisterIncome command)
         {
-            var associateAccount = _domainRepository.GetById<AssociateAccount>(command.AssociateAccountId.ToString());
+            var associateAccount = _domainRepository.GetById<AssociateAccount>(command.CorrelationId.ToString());
             associateAccount.RegisterIncome(command.Value, command.Description);
             return associateAccount;
         }
 
         public IAggregate Handle(RegisterExpense command)
         {
-            var associateAccount = _domainRepository.GetById<AssociateAccount>(command.AssociateAccountId.ToString());
+            var associateAccount = _domainRepository.GetById<AssociateAccount>(command.CorrelationId.ToString());
             associateAccount.RegisterExpense(command.Value, command.Description);
             return associateAccount;
         }

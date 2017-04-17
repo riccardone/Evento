@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace EventStore.Tools.Infrastructure.Repository
 {
-    public class SerializationUtils
+    internal class SerializationUtils
     {
 
         public static string EventClrTypeHeader = "EventClrTypeName";
