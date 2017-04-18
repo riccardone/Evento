@@ -1,6 +1,7 @@
 # EventStore.Tools.Infrastructure
 This .Net 4.0 C# library can be used to build event sourced components interacting with GetEventStore https://github.com/EventStore/EventStore 
 There are not external dependencies therefore it can be referenced by Domain projects and Application Service projects.
+You can see a Sample project showing how to use this library https://github.com/riccardone/EventStore.Tools.Infrastructure.Samples
   
 You can reference this project using Nuget  
 ```
@@ -79,6 +80,10 @@ public class AssociateAccount : AggregateBase
         // ....
     }
 ```
+# Previous releases
+Version 2.xx contains some breaking changes. If you are using the previous version 1.3.xx you can keep using it. There is a branch release-v1.3.8 that contains the latest changes. Migrating to the new 2.xx is not very difficult. I've just removed not relevant part of the library like the DomainEntry, CommandDispatcher, IBus. I also renamed IEvent and ICommand to Event and Command. I removed the asynch save method from the DomainRepository.   
+I separated the base Infrastructure code from the concrete EventStoreDomainRepository in order to reference it from the projects without need to attach external dependencies. 
+The only project that need to reference the Repository is the top level host process from where you inject the EventStoreDomainRepository in the app service. When I refactored some of my existing component with the new library it took one hour.
 
 # Thank You
 A big thank you to Greg Young and the EventStore team for giving us such a good database
