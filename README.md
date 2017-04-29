@@ -1,5 +1,5 @@
 # EventStore.Tools.Infrastructure
-This .Net 4.0 C# library can be used to build event sourced components interacting with GetEventStore https://github.com/EventStore/EventStore 
+This C# library can be used to build event sourced components interacting with GetEventStore https://github.com/EventStore/EventStore 
 There are not external dependencies therefore it can be referenced by Domain projects and Application Service projects.
 You can see a Sample project showing how to use this library https://github.com/riccardone/EventStore.Tools.Infrastructure.Samples
   
