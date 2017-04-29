@@ -1,5 +1,8 @@
 # EventStore.Tools.Infrastructure
 This C# library can be used to build event sourced components interacting with GetEventStore https://github.com/EventStore/EventStore 
+  
+I wrote a post on my blog for an explanation of the code http://www.dinuzzo.co.uk/2017/04/28/domain-driven-design-event-sourcing-and-micro-services-explained-for-developers/  
+  
 There are not external dependencies therefore it can be referenced by Domain projects and Application Service projects.
 You can see a Sample project showing how to use this library https://github.com/riccardone/EventStore.Tools.Infrastructure.Samples
   
