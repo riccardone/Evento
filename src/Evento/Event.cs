@@ -1,4 +1,4 @@
-﻿namespace EventStore.Tools.Infrastructure
+﻿namespace Evento
 {
     public interface Event : Message
     {

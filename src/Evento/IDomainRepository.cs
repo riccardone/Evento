@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EventStore.Tools.Infrastructure
+namespace Evento
 {
     /// <summary>
     /// This interface define the methods that a DomainRepository must expose

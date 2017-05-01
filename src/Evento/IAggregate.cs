@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EventStore.Tools.Infrastructure
+namespace Evento
 {
     /// <summary>
     /// An interface to create a class that group toghether behaviours/methods related to a business feature
