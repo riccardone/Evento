@@ -1,4 +1,4 @@
-﻿namespace EventStore.Tools.Infrastructure
+﻿namespace Evento
 {
     /// <summary>
     /// An interface to compose command handling functions toghether

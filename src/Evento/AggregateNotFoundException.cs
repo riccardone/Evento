@@ -1,6 +1,6 @@
 using System;
 
-namespace EventStore.Tools.Infrastructure
+namespace Evento
 {
     public class AggregateNotFoundException : Exception
     {

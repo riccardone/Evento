@@ -1,4 +1,4 @@
-﻿using EventStore.Tools.Infrastructure;
+﻿using Evento;
 
 namespace Infrastructure.Tests.Fakes
 {

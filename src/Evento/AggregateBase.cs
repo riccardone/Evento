@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EventStore.Tools.Infrastructure
+namespace Evento
 {
     public abstract class AggregateBase : IAggregate
     {

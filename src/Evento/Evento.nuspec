@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>EventStore.Tools.Infrastructure</id>
-    <version>2.1.0.0</version>
-    <title>EventStore.Tools.Infrastructure</title>
+    <id>Evento</id>
+    <version>3.0.0.0</version>
+    <title>Evento</title>
     <authors>Riccardo Di Nuzzo</authors>
     <owners>Riccardo Di Nuzzo</owners>
-    <licenseUrl>https://github.com/riccardone/EventStore.Tools.Infrastructure/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/riccardone/EventStore.Tools.Infrastructure</projectUrl>    
+    <licenseUrl>https://github.com/riccardone/Evento/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/riccardone/Evento</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library is used to build Event Sourced components interacting with EventStore (GetEventStore)</description>
     <releaseNotes>Changed the signature of the Save method in the IDomainRepository interface: no need to pass the correlationId separately, use the AggregateId</releaseNotes>

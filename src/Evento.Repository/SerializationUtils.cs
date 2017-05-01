@@ -4,7 +4,7 @@ using System.Text;
 using EventStore.ClientAPI;
 using Newtonsoft.Json;
 
-namespace EventStore.Tools.Infrastructure.Repository
+namespace Evento.Repository
 {
     internal class SerializationUtils
     {
