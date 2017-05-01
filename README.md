@@ -1,4 +1,4 @@
-# EventStore.Tools.Infrastructure
+# Evento
 This C# library can be used to build event sourced components interacting with GetEventStore https://github.com/EventStore/EventStore 
   
 I wrote a post on my blog for an explanation of the code http://www.dinuzzo.co.uk/2017/04/28/domain-driven-design-event-sourcing-and-micro-services-explained-for-developers/  
@@ -8,7 +8,7 @@ You can see a Sample project showing how to use this library https://github.com/
   
 You can reference this project using Nuget  
 ```
-PM> Install-Package EventStore.Tools.Infrastructure  
+PM> Install-Package Evento  
 ```
 
 # Create message handlers with the IHandle interface  
@@ -26,7 +26,7 @@ internal class AssociateAccountService :
     
 ```
 
-# EventStore.Tools.Infrastructure.Repository
+# Evento.Repository
 This .Net 4.6.1 C# library contains a concrete EventStoreDomainRepository with external dependencies to EventStore.Client v4.X and Newton.Json v10.X
 This library can be referenced and used in the top level host process application and injected into any Application Service that requires an IDomainRepository.  
 
