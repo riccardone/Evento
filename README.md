@@ -32,7 +32,7 @@ This library can be referenced and used in the top level host process applicatio
 
 You can reference this project using Nuget  
 ```
-PM> Install-Package EventStore.Tools.Infrastructure.Repository
+PM> Install-Package Evento.Repository
 ```  
 
 # Use the EventStore DomainRepository
