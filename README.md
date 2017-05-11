@@ -1,7 +1,7 @@
 # Evento
 This C# library can be used to build event sourced components. 
 
-It is not related to a particular store but in Event.Repository there is a concrete Repository class using GetEventStore https://github.com/EventStore/EventStore 
+It is not related to a particular storege. There is a concrete Repository class using GetEventStore https://github.com/EventStore/EventStore 
   
 You can find more info in my blog http://www.dinuzzo.co.uk/2017/04/28/domain-driven-design-event-sourcing-and-micro-services-explained-for-developers/  
   
