@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -34,15 +33,7 @@ namespace Evento.Repository
                 throw new AggregateNotFoundException("Could not found aggregate of type " + typeof(TResult) + " and id " + id);
             }
             var deserializedEvents = eventsSlice.Result.Events.Select(e =>
-            {
-                var metadata = SerializationUtils.DeserializeObject<Dictionary<string, string>>(e.OriginalEvent.Metadata);
-                var eventData = SerializationUtils.DeserializeObject(e.OriginalEvent.Data, metadata[SerializationUtils.EventClrTypeHeader]);
-                if (eventData is EventV2)
-                {
-                    //((EventV2) eventData).Metadata = metadata;
-                }
-                return eventData as Event;
-            });
+                SerializationUtils.DeserializeObject(e.OriginalEvent.Data, e.OriginalEvent.Metadata) as Event);
             return BuildAggregate<TResult>(deserializedEvents);
         }
 
@@ -53,26 +44,25 @@ namespace Evento.Repository
                 {
                     SerializationUtils.EventClrTypeHeader, @event.GetType().AssemblyQualifiedName
                 },
-                {
-                    "Domain", Category
-                },
+                //{
+                //    "Domain", Category
+                //},
                 {
                     "$correlationId", correlationId
                 }
             };
             var originalEventType = @event.GetType().Name;
-            if (((dynamic)@event).Metadata != null)
+            if (((Event)@event).Metadata != null)
             {
-                if (((dynamic) @event).Metadata.Applies != null)
+                if (((Event) @event).Metadata["Applies"] != null)
                 {
-                    //var boh = (DateTime)((dynamic) @event).Metadata.Applies;
-                    metadata.Add("Applies", ((dynamic)@event).Metadata.Applies.ToString(CultureInfo.InvariantCulture));
+                    metadata.Add("Applies", ((Event)@event).Metadata["Applies"].ToString(CultureInfo.InvariantCulture));
                 }
                     
-                if (((dynamic)@event).Metadata.Reverses != null)
-                    metadata.Add("Reverses", ((dynamic)@event).Metadata.Reverses.ToString());
-
-                var tmp = ((IDictionary<string, object>) @event.ToDynamic());
+                if (((dynamic)@event).Metadata["Reverses"] != null)
+                    metadata.Add("Reverses", ((dynamic)@event).Metadata["Reverses"].ToString());
+                // Remove the metadata from the event body
+                var tmp = (IDictionary<string, object>) @event.ToDynamic();
                 tmp.Remove("Metadata");
                 @event = tmp;
             }

@@ -39,24 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AggregateBaseV2.cs" />
     <Compile Include="AggregateBase.cs" />
     <Compile Include="AggregateNotFoundException.cs" />
-    <Compile Include="CommandV2.cs" />
     <Compile Include="Command.cs" />
-    <Compile Include="DomainRepositoryBaseV2.cs" />
     <Compile Include="DomainRepositoryBase.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="IAggregateV2.cs" />
-    <Compile Include="IDomainRepositoryV2.cs" />
-    <Compile Include="MessageV2.cs" />
-    <Compile Include="EventV2.cs" />
     <Compile Include="IAggregate.cs" />
     <Compile Include="IDomainRepository.cs" />
-    <Compile Include="IHandle.cs" />
     <Compile Include="Message.cs" />
-    <Compile Include="Metadata.cs" />
-    <Compile Include="MetadataBuilder.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="IHandle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
