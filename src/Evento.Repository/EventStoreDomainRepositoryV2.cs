@@ -9,12 +9,12 @@ using Newtonsoft.Json;
 
 namespace Evento.Repository
 {
-    public class EventStoreDomainRepository : DomainRepositoryBase
+    public class EventStoreDomainRepositoryV2 : DomainRepositoryBaseV2
     {
         public readonly string Category;
         private readonly IEventStoreConnection _connection;
 
-        public EventStoreDomainRepository(string category, IEventStoreConnection connection) 
+        public EventStoreDomainRepositoryV2(string category, IEventStoreConnection connection) 
         {
             Category = category;
             _connection = connection;
@@ -34,15 +34,7 @@ namespace Evento.Repository
                 throw new AggregateNotFoundException("Could not found aggregate of type " + typeof(TResult) + " and id " + id);
             }
             var deserializedEvents = eventsSlice.Result.Events.Select(e =>
-            {
-                var metadata = SerializationUtils.DeserializeObject<Dictionary<string, string>>(e.OriginalEvent.Metadata);
-                var eventData = SerializationUtils.DeserializeObject(e.OriginalEvent.Data, metadata[SerializationUtils.EventClrTypeHeader]);
-                if (eventData is EventV2)
-                {
-                    //((EventV2) eventData).Metadata = metadata;
-                }
-                return eventData as Event;
-            });
+                SerializationUtils.DeserializeObject(e.OriginalEvent.Data, e.OriginalEvent.Metadata) as EventV2);
             return BuildAggregate<TResult>(deserializedEvents);
         }
 
@@ -61,16 +53,15 @@ namespace Evento.Repository
                 }
             };
             var originalEventType = @event.GetType().Name;
-            if (((dynamic)@event).Metadata != null)
+            if (((EventV2)@event).Metadata != null)
             {
-                if (((dynamic) @event).Metadata.Applies != null)
+                if (((EventV2) @event).Metadata["Applies"] != null)
                 {
-                    //var boh = (DateTime)((dynamic) @event).Metadata.Applies;
-                    metadata.Add("Applies", ((dynamic)@event).Metadata.Applies.ToString(CultureInfo.InvariantCulture));
+                    metadata.Add("Applies", ((EventV2)@event).Metadata["Applies"].ToString(CultureInfo.InvariantCulture));
                 }
                     
-                if (((dynamic)@event).Metadata.Reverses != null)
-                    metadata.Add("Reverses", ((dynamic)@event).Metadata.Reverses.ToString());
+                if (((dynamic)@event).Metadata["Reverses"] != null)
+                    metadata.Add("Reverses", ((dynamic)@event).Metadata["Reverses"].ToString());
 
                 var tmp = ((IDictionary<string, object>) @event.ToDynamic());
                 tmp.Remove("Metadata");
@@ -89,7 +80,7 @@ namespace Evento.Repository
             return data;
         }
 
-        public override IEnumerable<Event> Save<TAggregate>(TAggregate aggregate) 
+        public override IEnumerable<EventV2> Save<TAggregate>(TAggregate aggregate) 
         {
             // Synchronous save operation
             var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
