@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Evento.Repository</id>
-    <version>2.0.0.0</version>
+    <version>4.0.0.0</version>
     <title>Evento.Repository</title>
     <authors>Riccardo Di Nuzzo</authors>
     <owners>Riccardo Di Nuzzo</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/riccardone/Evento.Repository</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library contains an EventStoreDomainRepository based on a DomainRepository base class contained in 'Evento' library. The two libraries combined are used to build Event Sourced components interacting with EventStore (GetEventStore)</description>
-    <releaseNotes>Removed the correlationId from the Save IDomainRepository method and use AggregateId instead</releaseNotes>
+    <releaseNotes>Enriched the commands and events with metadata</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>GetEventStore, EventStore, DomainRepository, Repository, DDD</tags>
   </metadata>
