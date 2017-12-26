@@ -1,16 +1,17 @@
-﻿using Evento;
+﻿using System.Collections.Generic;
+using Evento;
 
 namespace Infrastructure.Tests.Fakes
 {
     internal class CreateFakeCommand : Command
     {
-        public string Id { get; }
         public string TestString { get; }
+        public IDictionary<string, string> Metadata { get; }
 
-        public CreateFakeCommand(string id, string testString)
+        public CreateFakeCommand(string testString, IDictionary<string, string> metadata)
         {
-            Id = id;
             TestString = testString;
+            Metadata = metadata;
         }
     }
 }

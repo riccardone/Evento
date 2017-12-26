@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using EventStore.ClientAPI;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Evento.Repository
 {
@@ -23,9 +24,28 @@ namespace Evento.Repository
                 var jsonString = Encoding.UTF8.GetString(data);
                 return JsonConvert.DeserializeObject(jsonString, Type.GetType(typeName));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                return null;
+            }
+        }
 
+        public static object DeserializeObject(byte[] data, byte[] metadata)
+        {
+            try
+            {
+                var dict = DeserializeObject<Dictionary<string, string>>(metadata);
+                if (!dict.ContainsKey("$correlationId"))
+                    throw new Exception("The metadata must contains a $correlationId");
+                var bodyString = Encoding.UTF8.GetString(data);
+                var o1 = JObject.Parse(bodyString);
+                var o2 = JObject.Parse(JsonConvert.SerializeObject(new { metadata = dict }));
+                o1.Merge(o2, new JsonMergeSettings {MergeArrayHandling = MergeArrayHandling.Union});
+                return JsonConvert.DeserializeObject(o1.ToString(),
+                    Type.GetType(DeserializeObject<Dictionary<string, string>>(metadata)[EventClrTypeHeader]));
+            }
+            catch (Exception)
+            {
                 return null;
             }
         }

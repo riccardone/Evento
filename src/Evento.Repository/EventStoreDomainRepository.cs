@@ -32,31 +32,31 @@ namespace Evento.Repository
                 throw new AggregateNotFoundException("Could not found aggregate of type " + typeof(TResult) + " and id " + id);
             }
             var deserializedEvents = eventsSlice.Result.Events.Select(e =>
-            {
-                var metadata = SerializationUtils.DeserializeObject<Dictionary<string, string>>(e.OriginalEvent.Metadata);
-                var eventData = SerializationUtils.DeserializeObject(e.OriginalEvent.Data, metadata[SerializationUtils.EventClrTypeHeader]);
-                return eventData as Event;
-            });
+                SerializationUtils.DeserializeObject(e.OriginalEvent.Data, e.OriginalEvent.Metadata) as Event);
             return BuildAggregate<TResult>(deserializedEvents);
         }
 
-        private EventData CreateEventData(object @event, string correlationId)
+        private static EventData CreateEventData(object @event)
         {
-            var metadata = new Dictionary<string, string>()
+            IDictionary<string, string> metadata;
+            var originalEventType = @event.GetType().Name;
+            if (((Event)@event).Metadata != null)
             {
-                {
-                    SerializationUtils.EventClrTypeHeader, @event.GetType().AssemblyQualifiedName
-                },
-                {
-                    "Domain", Category
-                },
-                {
-                    "$correlationId", correlationId
-                }
-            };
+                metadata = ((Event) @event).Metadata;
+                if (!metadata.ContainsKey("$correlationId"))
+                    throw new Exception("The event metadata must contains a $correlationId");
+                if (!metadata.ContainsKey(SerializationUtils.EventClrTypeHeader))
+                    metadata.Add(SerializationUtils.EventClrTypeHeader, @event.GetType().AssemblyQualifiedName);
+                // Remove the metadata from the event body
+                var tmp = (IDictionary<string, object>) @event.ToDynamic();
+                tmp.Remove("Metadata");
+                @event = tmp;
+            }
+            else
+                throw new Exception("The event must have a $correlationId present in its metadata");
             var eventDataHeaders = SerializeObject(metadata);
             var data = SerializeObject(@event);
-            var eventData = new EventData(Guid.NewGuid(), @event.GetType().Name, true, data, eventDataHeaders);
+            var eventData = new EventData(Guid.NewGuid(), originalEventType, true, data, eventDataHeaders);
             return eventData;
         }
 
@@ -74,7 +74,7 @@ namespace Evento.Repository
             var events = aggregate.UncommitedEvents().ToList();
             var originalVersion = CalculateExpectedVersion(aggregate, events);
             var expectedVersion = originalVersion == 0 ? ExpectedVersion.NoStream : originalVersion - 1;
-            var eventData = events.Select(@event => CreateEventData(@event, aggregate.AggregateId)).ToArray();
+            var eventData = events.Select(CreateEventData).ToArray();
             try
             {
                 if (events.Count > 0)

@@ -2,5 +2,6 @@
 {
     public interface Command : Message
     {
+        
     }
 }

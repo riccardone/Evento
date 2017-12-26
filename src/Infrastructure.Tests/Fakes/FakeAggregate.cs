@@ -1,4 +1,5 @@
-﻿using Evento;
+﻿using System.Collections.Generic;
+using Evento;
 
 namespace Infrastructure.Tests.Fakes
 {
@@ -12,19 +13,19 @@ namespace Infrastructure.Tests.Fakes
             RegisterTransition<FakeAggregateCreated>(Apply);
         }
 
-        private FakeAggregate(string id, string testString) : this()
+        private FakeAggregate(string testString, IDictionary<string, string> metadata) : this()
         {
-            RaiseEvent(new FakeAggregateCreated(id, testString));
+            RaiseEvent(new FakeAggregateCreated(testString, metadata));
         }
 
         private void Apply(FakeAggregateCreated obj)
         {
-            _correlationId = obj.Id;
+            _correlationId = obj.Metadata["$correlationId"];
         }
 
         public static FakeAggregate Create(CreateFakeCommand cmd)
         {
-            return new FakeAggregate(cmd.Id, cmd.TestString);
+            return new FakeAggregate(cmd.TestString, cmd.Metadata);
         }
     }
 }

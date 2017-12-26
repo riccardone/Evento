@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Infrastructure.Tests.Fakes;
 using NUnit.Framework;
 
@@ -13,7 +14,8 @@ namespace Infrastructure.Tests
             // Assign
             const string correlationId = "correlationidexample-123";
             const string testString = "test";
-            var cmd = new CreateFakeCommand(correlationId, testString);
+            var cmd = new CreateFakeCommand(testString,
+                new Dictionary<string, string> {{"$correlationId", correlationId}});
 
             // Act
             var results = new FakeHandler().Handle(cmd);

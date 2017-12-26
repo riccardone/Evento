@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Evento</id>
-    <version>3.0.0.0</version>
+    <version>4.0.0.0</version>
     <title>Evento</title>
     <authors>Riccardo Di Nuzzo</authors>
     <owners>Riccardo Di Nuzzo</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/riccardone/Evento</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library is used to build Event Sourced components interacting with EventStore (GetEventStore)</description>
-    <releaseNotes>Changed the signature of the Save method in the IDomainRepository interface: no need to pass the correlationId separately, use the AggregateId</releaseNotes>
+    <releaseNotes>Enriched the commands and events with metadata</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>GetEventStore, DomainRepository, Aggregate, Command Handlers, EventStore</tags>
   </metadata>
