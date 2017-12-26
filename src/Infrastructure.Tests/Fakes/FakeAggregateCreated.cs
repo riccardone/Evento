@@ -1,16 +1,16 @@
-﻿using Evento;
+﻿using System.Collections.Generic;
+using Evento;
 
 namespace Infrastructure.Tests.Fakes
 {
     internal class FakeAggregateCreated : Event
     {
-        public string Id { get; }
         public string TestString { get; }
-
-        public FakeAggregateCreated(string id, string test)
+        public IDictionary<string, string> Metadata { get; }
+        public FakeAggregateCreated(string test, IDictionary<string, string> metadata)
         {
-            Id = id;
             TestString = test;
+            Metadata = metadata;
         }
     }
 }

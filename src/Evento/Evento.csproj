@@ -43,11 +43,11 @@
     <Compile Include="AggregateNotFoundException.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="DomainRepositoryBase.cs" />
-    <Compile Include="Event.cs" />
     <Compile Include="IAggregate.cs" />
     <Compile Include="IDomainRepository.cs" />
-    <Compile Include="IHandle.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="IHandle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
