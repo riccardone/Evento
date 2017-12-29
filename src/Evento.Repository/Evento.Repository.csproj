@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Evento\Evento.csproj">
-      <Project>{8911cbb6-d578-49df-bfbe-a1819bce2293}</Project>
+      <Project>{8911CBB6-D578-49DF-BFBE-A1819BCE2293}</Project>
       <Name>Evento</Name>
     </ProjectReference>
   </ItemGroup>
