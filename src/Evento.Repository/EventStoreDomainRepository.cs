@@ -23,10 +23,15 @@ namespace Evento.Repository
             return $"{Category}-{type.Name}-{id}";
         }
 
-        public override TResult GetById<TResult>(string id) 
+        public override TResult GetById<TResult>(string id)
+        {
+            return GetById<TResult>(id, 4096);
+        }
+
+        public override TResult GetById<TResult>(string id, int eventsToLoad)
         {
             var streamName = AggregateToStreamName(typeof(TResult), id);
-            var eventsSlice = _connection.ReadStreamEventsForwardAsync(streamName, 0, 4096, false);
+            var eventsSlice = _connection.ReadStreamEventsForwardAsync(streamName, 0, eventsToLoad, false);
             if (eventsSlice.Result.Status == SliceReadStatus.StreamNotFound)
             {
                 throw new AggregateNotFoundException("Could not found aggregate of type " + typeof(TResult) + " and id " + id);
