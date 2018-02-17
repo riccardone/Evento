@@ -21,5 +21,14 @@ namespace Evento
         /// <param name="correlationId">The unique identifier of the requested Aggregate</param>
         /// <returns>The Aggregate retrieved from the store in it's current state (all previous events applied)</returns>
         TResult GetById<TResult>(string correlationId) where TResult : IAggregate, new();
+
+        /// <summary>
+        /// This method can be used to retrieve the Aggregate in it's current state (all previous events applied)
+        /// </summary>
+        /// <typeparam name="TResult">IAggregate</typeparam>
+        /// <param name="correlationId">The unique identifier of the requested Aggregate</param>
+        /// <param name="eventsToLoad">The number of events to apply if you don't need to load the full history</param>
+        /// <returns>The Aggregate retrieved from the store in it's current state (all previous events applied)</returns>
+        TResult GetById<TResult>(string correlationId, int eventsToLoad) where TResult : IAggregate, new();
     }
 }
