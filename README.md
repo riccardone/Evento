@@ -27,9 +27,9 @@ PM> Install-Package Evento.Repository
 The IDomainRepository interface expose two methods: 'Save' and GetById. The Save method take an IAggregate as parameter and a correlationId. 
 The correlationId is used to link toghether the events that are part of the same conversation. It defines the AggregateId and when the events are stored in EventStore it is used to define the StreamId.
   
-example creating an EventStoreDomainRepository
+example creating an EventStoreDomainRepository with the word 'domain' as category
 ```c#
-var repository = new EventStoreDomainRepository("MyApp", Configuration.CreateConnection("MyAdapterConnection"));
+var repository = new EventStoreDomainRepository("domain", Configuration.CreateConnection("MyAdapterConnection"));
 ```
 
 # Use AggregateBase and IAggregate to build your Aggregates  
