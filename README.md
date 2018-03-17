@@ -50,36 +50,40 @@ var repository = new EventStoreDomainRepository("MyApp", Configuration.CreateCon
 # Use AggregateBase and IAggregate to build your Aggregates  
 
 ```c#
-public class AssociateAccount : AggregateBase
+namespace Domain.Aggregates
+{
+    public class AssociateAccount : AggregateBase
     {
-        public override string AggregateId => _correlationId;
-        private string _correlationId;
-        private Guid _associateId;
-        private readonly List<Income> _incomes = new List<Income>();
-        private readonly List<Expense> _expenses = new List<Expense>();
-        public decimal Balance { get; private set; }
+        public override string AggregateId => CorrelationId;
+        private string CorrelationId { get; set; }
+        private Guid AssociateId { get; set; }
+        private List<Income> Incomes { get; }
+        private List<Expense> Expenses { get; }
 
-        public AssociateAccount(string correlationId, Guid associateId) : this()
+        public AssociateAccount(Guid associateId, IDictionary<string, string> metadata) : this()
         {
-            RaiseEvent(new AssociateAccountCreated(correlationId, associateId));
+            RaiseEvent(new AssociateAccountCreated(associateId, metadata));
         }
 
         public AssociateAccount()
         {
+            Incomes = new List<Income>();
+            Expenses = new List<Expense>();
             RegisterTransition<AssociateAccountCreated>(Apply);
             RegisterTransition<IncomeRegistered>(Apply);
             RegisterTransition<ExpenseRegistered>(Apply);
         }
-        
         private void Apply(AssociateAccountCreated evt)
         {
-            _correlationId = evt.CorrelationId;
-            _associateId = evt.AssociateId;
+            CorrelationId = evt.Metadata["$correlationId"];
+            AssociateId = evt.AssociateId;
         }
-
-        public static IAggregate Create(CreateAssociateAccount cmd)
+        public static IAggregate Create(CreateAssociateAccount createAssociateAccount)
         {
-            return new AssociateAccount(cmd.CorrelationId, cmd.AssociateId);
+            Ensure.NotNull(createAssociateAccount, nameof(createAssociateAccount));
+            Ensure.NotEmptyGuid(createAssociateAccount.AssociateId, nameof(createAssociateAccount.AssociateId));
+
+            return new AssociateAccount(createAssociateAccount.AssociateId, createAssociateAccount.Metadata);
         }
         
         // ....
