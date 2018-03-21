@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using EventStore.ClientAPI;
 using Newtonsoft.Json;
 
@@ -39,6 +40,12 @@ namespace Evento.Repository
             var deserializedEvents = eventsSlice.Result.Events.Select(e =>
                 SerializationUtils.DeserializeObject(e.OriginalEvent.Data, e.OriginalEvent.Metadata) as Event);
             return BuildAggregate<TResult>(deserializedEvents);
+        }
+
+        public override void DeleteAggregate<TAggregate>(string correlationId, bool hard)
+        {
+            var streamName = AggregateToStreamName(typeof(TAggregate), correlationId);
+            _connection.DeleteStreamAsync(streamName, ExpectedVersion.Any, hard).Wait();
         }
 
         private static EventData CreateEventData(object @event)
