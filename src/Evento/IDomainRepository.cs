@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Evento
 {
@@ -30,5 +31,12 @@ namespace Evento
         /// <param name="eventsToLoad">The number of events to apply if you don't need to load the full history</param>
         /// <returns>The Aggregate retrieved from the store in it's current state (all previous events applied)</returns>
         TResult GetById<TResult>(string correlationId, int eventsToLoad) where TResult : IAggregate, new();
+
+        /// <summary>
+        /// This method can be used to remove an entire aggregate and all the events within its stream from the disk
+        /// </summary>
+        /// <param name="correlationId">The unique identifier of the requested Aggregate</param>
+        /// <param name="hard">If true it will be impossible to recreate the stream with the same correlationId</param>
+        void DeleteAggregate<TAggregate>(string correlationId, bool hard);
     }
 }
