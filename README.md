@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/riccardone/Evento/_apis/build/status/Evento-.NET%20Desktop-CI?branchName=master)](https://dev.azure.com/riccardone/Evento/_build/latest?definitionId=2?branchName=master)
+
 # Evento
 This C# library can be used to build event sourced components. 
 
