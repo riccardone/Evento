@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Evento;
 
-namespace Infrastructure.Tests.Fakes
+namespace Evento.Tests.Fakes
 {
     internal class FakeAggregateCreated : Event
     {

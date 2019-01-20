@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Evento.Repository;
+using Evento.Tests.Fakes;
 using EventStore.ClientAPI;
-using Infrastructure.Tests.Fakes;
 using Moq;
 using NUnit.Framework;
 
-namespace Infrastructure.Tests
+namespace Evento.Tests
 {
     [TestFixture]
     public class DomainRepositoryTests

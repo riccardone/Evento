@@ -1,6 +1,4 @@
-﻿using Evento;
-
-namespace Infrastructure.Tests.Fakes
+﻿namespace Evento.Tests.Fakes
 {
     internal class FakeHandler : IHandle<CreateFakeCommand>
     {
