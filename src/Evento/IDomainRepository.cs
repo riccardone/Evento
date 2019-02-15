@@ -16,6 +16,13 @@ namespace Evento
         IEnumerable<Event> Save<TAggregate>(TAggregate aggregate) where TAggregate : IAggregate;
 
         /// <summary>
+        /// This asynchronous method save all the uncommitted events of the passed aggregate 
+        /// </summary>
+        /// <param name="aggregate">The Aggregate containing uncommitted events</param>
+        /// <returns>All the events that have been sent to EventStore</returns>
+        Task<IEnumerable<Event>> SaveAsync<TAggregate>(TAggregate aggregate) where TAggregate : IAggregate;
+
+        /// <summary>
         /// This method can be used to retrieve the Aggregate in it's current state (all previous events applied)
         /// </summary>
         /// <typeparam name="TResult">IAggregate</typeparam>
