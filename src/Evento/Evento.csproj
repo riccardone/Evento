@@ -4,13 +4,14 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Riccardo Di Nuzzo</Authors>
     <Description>This library is used to build Event Sourced components interacting with EventStore database</Description>
-    <Version>4.1.0.0</Version>
+    <Version>4.2.0.0</Version>
     <Copyright>Copyright 2019</Copyright>
     <PackageLicenseUrl>https://github.com/riccardone/Evento/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/riccardone/Evento</PackageProjectUrl>
-    <PackageReleaseNotes>Upgraded the library to netstandard 2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Upgraded EventStore client to v5</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/riccardone/Evento</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>EventStore, DomainRepository, Aggregate, Command Handlers, Event Sourcing</PackageTags>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
   </PropertyGroup>
 </Project>
