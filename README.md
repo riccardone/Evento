@@ -8,7 +8,9 @@ It is not related to a particular storage. There is a Repository implementation 
 You can find more info in my blog http://www.dinuzzo.co.uk/2017/04/28/domain-driven-design-event-sourcing-and-micro-services-explained-for-developers/  
   
 The 'Evento' library has no-dependencies therefore it can be referenced by Domain projects and Application Service projects.
-You can see a Sample project showing how to use this library https://github.com/riccardone/Evento.Samples
+You can see a Sample project showing how to use this library https://github.com/riccardone/Evento.Samples  
+  
+Current EventStore.Client: v5.0.6  
   
 You can reference this project using Nuget  
 ```
