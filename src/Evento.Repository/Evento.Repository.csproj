@@ -6,8 +6,8 @@
     <Authors>Riccardo Di Nuzzo</Authors>
     <Company>Riccardo Di Nuzzo</Company>
     <Description>This library contains an EventStoreDomainRepository based on a DomainRepository base class contained in 'Evento' library. The two libraries combined are used to build Event Sourced components interacting with EventStore database</Description>
-    <PackageReleaseNotes>Fixed reads for getid; Implemented new SaveAsync method; Added a new TestClient app to run manual tests</PackageReleaseNotes>
-    <Copyright>Copyright 2019</Copyright>
+    <PackageReleaseNotes>updated eventstore.client v5.0.6</PackageReleaseNotes>
+    <Copyright>Copyright 2020</Copyright>
     <PackageLicenseUrl>https://github.com/riccardone/Evento/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/riccardone/Evento.Repository</PackageProjectUrl>
     <RepositoryUrl>https://github.com/riccardone/Evento.Repository</RepositoryUrl>
