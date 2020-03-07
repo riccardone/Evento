@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/riccardone/Evento/_apis/build/status/Evento-.NET%20Desktop-CI?branchName=master)](https://dev.azure.com/riccardone/Evento/_build/latest?definitionId=2?branchName=master)
+[![Build Status](https://riccardone.visualstudio.com/Evento/_apis/build/status/riccardone.Evento?branchName=master)](https://riccardone.visualstudio.com/Evento/_build/latest?definitionId=9&branchName=master)
 
 # Evento
 This C# .Net Standard library can be used to build components based on Event Sourcing patterns. It can be considered a small toolbox as it provides few types and a Repository. The types are Command and Event and can help to better structure the flow of your data. It's lightweight and you can just copy and paste the code in your component codebase to avoid adding a dependency. In that way you can easily tailor made the features on your needs.   
