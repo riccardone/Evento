@@ -40,7 +40,7 @@ namespace Evento.TestClient
                 conn.CreatePersistentSubscriptionAsync("domain-TestStream", "TestGroup", PersistentSubscriptionSettings.Create().StartFromBeginning(),
                     new UserCredentials("admin", "changeit")).Wait();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // Already exist
             }
