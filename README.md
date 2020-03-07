@@ -10,8 +10,6 @@ You can find more info in my blog http://www.dinuzzo.co.uk/2017/04/28/domain-dri
 The 'Evento' library has no-dependencies therefore it can be referenced by Domain projects and Application Service projects.
 You can see a Sample project showing how to use this library https://github.com/riccardone/Evento.Samples  
   
-Current EventStore.Client: v5.0.6  
-  
 You can reference this project using Nuget  
 ```
 PM> Install-Package Evento  
@@ -19,6 +17,8 @@ PM> Install-Package Evento
 
 # Evento.Repository
 There is a working Repository EventStoreDomainRepository with external dependencies to EventStore.Client v5.X and Newton.Json. This library can be referenced and used in the top level host process application and injected into any Application Service that requires an IDomainRepository.  
+  
+Current EventStore.Client: v5.0.6  
   
 You can reference this project using Nuget  
 ```
