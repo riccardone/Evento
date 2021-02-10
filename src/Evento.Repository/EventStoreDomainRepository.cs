@@ -58,7 +58,7 @@ namespace Evento.Repository
                 streamEvents.AddRange(currentSlice.Events);
             } while (!currentSlice.IsEndOfStream);
             var deserializedEvents = streamEvents.Select(e =>
-                SerializationUtils.DeserializeObject(e.OriginalEvent.Data, e.OriginalEvent.Metadata) as Event);
+                SerializationUtils.DeserializeObject(e.Event.Data, e.Event.Metadata) as Event);
             return BuildAggregate<TResult>(deserializedEvents);
         }
 
@@ -73,6 +73,8 @@ namespace Evento.Repository
                     throw new Exception("The event metadata must contains a $correlationId");
                 if (!metadata.ContainsKey(SerializationUtils.EventClrTypeHeader))
                     metadata.Add(SerializationUtils.EventClrTypeHeader, @event.GetType().AssemblyQualifiedName);
+                else
+                    metadata[SerializationUtils.EventClrTypeHeader] = @event.GetType().AssemblyQualifiedName;
                 // Remove the metadata from the event body
                 var tmp = (IDictionary<string, object>)@event.ToDynamic();
                 tmp.Remove("Metadata");
