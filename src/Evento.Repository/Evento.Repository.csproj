@@ -6,7 +6,7 @@
     <Authors>Riccardo Di Nuzzo</Authors>
     <Company>Riccardo Di Nuzzo</Company>
     <Description>This library contains an EventStoreDomainRepository based on a DomainRepository base class contained in 'Evento' library. The two libraries combined are used to build Event Sourced components interacting with EventStore database</Description>
-    <PackageReleaseNotes>remove net462 as target framework</PackageReleaseNotes>
+    <PackageReleaseNotes>remove net462 as target framework; fix bug that was impeding using the right clr event type while saving events</PackageReleaseNotes>
     <Copyright>Copyright 2020</Copyright>
     <PackageLicenseUrl>https://github.com/riccardone/Evento/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/riccardone/Evento.Repository</PackageProjectUrl>
