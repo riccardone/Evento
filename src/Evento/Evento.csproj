@@ -8,7 +8,7 @@
     <Copyright>Copyright 2021</Copyright>
     <PackageLicenseUrl>https://github.com/riccardone/Evento/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/riccardone/Evento</PackageProjectUrl>
-    <PackageReleaseNotes>implement IHandleAsync for asynchronous handling of commands</PackageReleaseNotes>
+    <PackageReleaseNotes>implement IHandleAsync and IDomainRepositoryAsync for asynchronous handling of commands and operations</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/riccardone/Evento</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>EventStore, DomainRepository, Aggregate, Command Handlers, Event Sourcing</PackageTags>

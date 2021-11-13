@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace Evento
         /// <returns>All the events that have been sent to EventStore</returns>
         IEnumerable<Event> Save<TAggregate>(TAggregate aggregate) where TAggregate : IAggregate;
 
+        [Obsolete("Use IDomainRepositoryAsync interface for async methods")]
         /// <summary>
         /// This asynchronous method save all the uncommitted events of the passed aggregate 
         /// </summary>
