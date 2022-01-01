@@ -16,14 +16,20 @@ PM> Install-Package Evento
 ```
 
 # Evento.Repository
-There is a working Repository EventStoreDomainRepository with external dependencies to EventStore.Client v5.X and Newton.Json. This library can be referenced and used in the top level host process application and injected into any Application Service that requires an IDomainRepository.  
+There is a working Repository EventStoreDomainRepository with external dependencies to EventStore.Client v20.X and Newton.Json. This library can be referenced and used in the top level host process application and injected into any Application Service that requires an IDomainRepository.  
   
-Current EventStore.Client: v5.0.6  
+Current EventStore.Client: v21.2.1  
   
 You can reference this project using Nuget  
 ```
 PM> Install-Package Evento.Repository
 ```  
+  
+For old eventstore 5.x version please install the package specifying the latest evento.repository v5 
+example connecting to an EventStore v5
+```
+PM> Install-Package Evento -Version 5.1.0
+```
 
 # Use the EventStore DomainRepository
 

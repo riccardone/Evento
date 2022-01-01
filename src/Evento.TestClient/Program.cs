@@ -1,28 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using Evento.Repository;
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.SystemData;
+using Newtonsoft.Json;
 
 namespace Evento.TestClient
 {
     class Program
     {
-        private static IDomainRepository _repository;
+        private static IDomainRepositoryAsync _repository;
+        private const string InputStream = "testStream";
 
         static void Main(string[] args)
         {
-            var port = 1113;
-            if (args.Length > 0 && int.TryParse(args[0], out port))
-                Console.WriteLine($"Connecting to localhost on port {port}");
-            var conn = EventStoreConnection.Create(GetConnectionBuilder(), new Uri($"tcp://localhost:{port}"));
-            _repository = new EventStoreDomainRepository("testclient", conn);
             try
             {
+                var port = 1113;
+                if (args.Length > 0 && int.TryParse(args[0], out port))
+                    Console.WriteLine($"Connecting to localhost on port {port}");
+                var conn = EventStoreConnection.Create(ConnectionSettings.Create().DisableServerCertificateValidation(), new Uri($"tcp://admin:changeit@127.0.0.1:{port}"));
                 conn.ConnectAsync().Wait();
+                TestConnection(conn);
+                _repository = new EventStoreDomainRepositoryAsync("testclient", conn);
                 CreatePersistentSubscription(conn);
-                conn.ConnectToPersistentSubscription("domain-TestStream", "TestGroup",
-                    (Action<EventStorePersistentSubscriptionBase, ResolvedEvent>)EventAppeared, SubscriptionDropped);
+                conn.ConnectToPersistentSubscriptionAsync(InputStream, "TestGroup", EventAppeared, SubscriptionDropped);
             }
             catch (Exception e)
             {
@@ -33,11 +37,26 @@ namespace Evento.TestClient
             Console.ReadLine();
         }
 
+        private static void TestConnection(IEventStoreConnection conn)
+        {
+            conn.AppendToStreamAsync(InputStream, ExpectedVersion.Any,
+                new[] { CreateSample(1), CreateSample(2), CreateSample(3) }).Wait();
+        }
+
+        static EventData CreateSample(int i)
+        {
+            var sampleObject = new { a = i };
+            var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(sampleObject));
+            var metadata = Encoding.UTF8.GetBytes("{}");
+            var eventPayload = new EventData(Guid.NewGuid(), "event-type", true, data, metadata);
+            return eventPayload;
+        }
+
         private static void CreatePersistentSubscription(IEventStoreConnection conn)
         {
             try
             {
-                conn.CreatePersistentSubscriptionAsync("domain-TestStream", "TestGroup", PersistentSubscriptionSettings.Create().StartFromBeginning(),
+                conn.CreatePersistentSubscriptionAsync(InputStream, "TestGroup", PersistentSubscriptionSettings.Create().StartFromBeginning(),
                     new UserCredentials("admin", "changeit")).Wait();
             }
             catch (Exception)
@@ -54,10 +73,15 @@ namespace Evento.TestClient
 
         private static void EventAppeared(EventStorePersistentSubscriptionBase arg1, ResolvedEvent arg2)
         {
+            EventAppearedAsync(arg1, arg2).Wait();
+        }
+
+        private static async Task EventAppearedAsync(EventStorePersistentSubscriptionBase arg1, ResolvedEvent arg2)
+        {
             IAggregate aggregate;
             try
             {
-                aggregate = _repository.GetById<TestAggregate>(arg2.OriginalEvent.EventId.ToString()); // This will always fail
+                aggregate = await _repository.GetByIdAsync<TestAggregate>(arg2.OriginalEvent.EventId.ToString()); // This will always fail
             }
             catch (AggregateNotFoundException)
             {
@@ -65,17 +89,9 @@ namespace Evento.TestClient
                     new Dictionary<string, string> {{"$correlationId", Guid.NewGuid().ToString()}}));
             }
 
-            _repository.SaveAsync(aggregate);
+            await _repository.SaveAsync(aggregate);
             Console.WriteLine($"Message '{arg2.OriginalEvent.EventId}' handled");
             Console.WriteLine($"Aggregate '{aggregate.AggregateId}' created");
-        }
-
-        private static ConnectionSettings GetConnectionBuilder()
-        {
-            var settings = ConnectionSettings.Create()
-                .KeepRetrying()
-                .KeepReconnecting();
-            return settings;
         }
     }
 }
