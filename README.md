@@ -26,9 +26,8 @@ PM> Install-Package Evento.Repository
 ```  
   
 For old eventstore 5.x version please install the package specifying the latest evento.repository v5 
-example connecting to an EventStore v5
 ```
-PM> Install-Package Evento -Version 5.1.0
+PM> Install-Package Evento.Repository -Version 5.1.0
 ```
 
 # Use the EventStore DomainRepository
