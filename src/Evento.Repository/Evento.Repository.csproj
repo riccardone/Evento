@@ -2,11 +2,11 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>5.1.0.0</Version>
+    <Version>6.0.0.0</Version>
     <Authors>Riccardo Di Nuzzo</Authors>
     <Company>Riccardo Di Nuzzo</Company>
     <Description>This library contains an EventStoreDomainRepository based on a DomainRepository base class contained in 'Evento' library. The two libraries combined are used to build Event Sourced components interacting with EventStore database</Description>
-    <PackageReleaseNotes>add IDomainRepositoryAsync for async operations</PackageReleaseNotes>
+    <PackageReleaseNotes>update the eventstore.client to v21.2.1 - keep using v5.x if you stick with eventstore v5.x</PackageReleaseNotes>
     <Copyright>Copyright 2020</Copyright>
     <PackageLicenseUrl>https://github.com/riccardone/Evento/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/riccardone/Evento.Repository</PackageProjectUrl>
@@ -15,7 +15,7 @@
     <PackageTags>EventStore, Event Sourcing, DomainRepository, Repository, DDD</PackageTags>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="eventstore.client" Version="5.0.6" />
+    <PackageReference Include="eventstore.client" Version="21.2.1" />
     <PackageReference Include="Microsoft.Csharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>

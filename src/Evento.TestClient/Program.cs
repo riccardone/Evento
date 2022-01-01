@@ -12,7 +12,7 @@ namespace Evento.TestClient
     class Program
     {
         private static IDomainRepositoryAsync _repository;
-        private static string _inputStream = "testStream";
+        private const string InputStream = "testStream";
 
         static void Main(string[] args)
         {
@@ -21,12 +21,12 @@ namespace Evento.TestClient
                 var port = 1113;
                 if (args.Length > 0 && int.TryParse(args[0], out port))
                     Console.WriteLine($"Connecting to localhost on port {port}");
-                var conn = EventStoreConnection.Create(ConnectionSettings.Create(), new Uri($"tcp://admin:changeit@localhost:{port}"));
+                var conn = EventStoreConnection.Create(ConnectionSettings.Create().DisableServerCertificateValidation(), new Uri($"tcp://admin:changeit@127.0.0.1:{port}"));
                 conn.ConnectAsync().Wait();
                 TestConnection(conn);
                 _repository = new EventStoreDomainRepositoryAsync("testclient", conn);
                 CreatePersistentSubscription(conn);
-                conn.ConnectToPersistentSubscriptionAsync(_inputStream, "TestGroup", EventAppeared, SubscriptionDropped);
+                conn.ConnectToPersistentSubscriptionAsync(InputStream, "TestGroup", EventAppeared, SubscriptionDropped);
             }
             catch (Exception e)
             {
@@ -39,7 +39,7 @@ namespace Evento.TestClient
 
         private static void TestConnection(IEventStoreConnection conn)
         {
-            conn.AppendToStreamAsync(_inputStream, ExpectedVersion.Any,
+            conn.AppendToStreamAsync(InputStream, ExpectedVersion.Any,
                 new[] { CreateSample(1), CreateSample(2), CreateSample(3) }).Wait();
         }
 
@@ -56,7 +56,7 @@ namespace Evento.TestClient
         {
             try
             {
-                conn.CreatePersistentSubscriptionAsync(_inputStream, "TestGroup", PersistentSubscriptionSettings.Create().StartFromBeginning(),
+                conn.CreatePersistentSubscriptionAsync(InputStream, "TestGroup", PersistentSubscriptionSettings.Create().StartFromBeginning(),
                     new UserCredentials("admin", "changeit")).Wait();
             }
             catch (Exception)
