@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Dynamic;
 
-namespace Evento.Repository
+namespace Evento.Repository.Grpc
 {
     public static class ObjectExtensions
     {
