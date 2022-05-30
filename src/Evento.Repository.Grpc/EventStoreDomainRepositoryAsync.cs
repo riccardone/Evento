@@ -41,32 +41,27 @@ namespace Evento.Repository.Grpc
         public override async Task<TResult> GetByIdAsync<TResult>(string id, int eventsToLoad)
         {
             var streamName = AggregateToStreamName(typeof(TResult), id);
-            var result = _connection.ReadStreamAsync(Direction.Forwards, streamName, 0, eventsToLoad);            
+            var result = _connection.ReadStreamAsync(Direction.Forwards, streamName, 0, eventsToLoad);
             if (await result.ReadState == ReadState.StreamNotFound)
                 throw new AggregateNotFoundException("Could not found aggregate of type " + typeof(TResult) +
                                                      " and id " + id);
             var deserializedEvents = await result.Select(e =>
                 SerializationUtils.DeserializeObject(e.OriginalEvent.Data, e.OriginalEvent.Metadata) as Event).ToListAsync();
-            return await Task.Run(() => BuildAggregate<TResult>(deserializedEvents));            
+            return await Task.Run(() => BuildAggregate<TResult>(deserializedEvents));
         }
 
         public override async Task<IEnumerable<Event>> SaveAsync<TAggregate>(TAggregate aggregate)
         {
             var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
             var events = aggregate.UncommitedEvents().ToList();
-            var originalVersion = CalculateExpectedVersion(aggregate, events);
-            var expectedVersion = originalVersion == 0 ? int.MaxValue : originalVersion - 1;
+            // TODO verify if we still need to calculate the version using grpc client
+            //var originalVersion = CalculateExpectedVersion(aggregate, events);
+            //var expectedVersion = originalVersion == 0 ? int.MaxValue : originalVersion - 1;
             var eventData = events.Select(CreateEventData).ToArray();
-            try
-            {
-                if (events.Count > 0)
-                    await _connection.AppendToStreamAsync(streamName, new StreamRevision((ulong)expectedVersion), eventData);
-            }
-            catch (AggregateException)
-            {
-                // Try to save using ExpectedVersion.Any to swallow silently WrongExpectedVersion error
-                await _connection.AppendToStreamAsync(streamName, StreamRevision.None, eventData);
-            }
+
+            if (events.Count > 0)
+                await _connection.AppendToStreamAsync(streamName, StreamState.Any, eventData);
+
             aggregate.ClearUncommitedEvents();
             return events;
         }
@@ -93,7 +88,7 @@ namespace Evento.Repository.Grpc
                 throw new Exception("The event must have a $correlationId present in its metadata");
             var eventDataHeaders = SerializeObject(metadata);
             var data = SerializeObject(@event);
-            var eventData = new EventData(new Uuid(), originalEventType, data, eventDataHeaders);
+            var eventData = new EventData(Uuid.NewUuid(), originalEventType, data, eventDataHeaders);
             return eventData;
         }
 

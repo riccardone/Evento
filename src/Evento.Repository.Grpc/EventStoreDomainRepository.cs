@@ -72,7 +72,7 @@ namespace Evento.Repository.Grpc
                 throw new Exception("The event must have a $correlationId present in its metadata");
             var eventDataHeaders = SerializeObject(metadata);
             var data = SerializeObject(@event);
-            var eventData = new EventData(new Uuid(), originalEventType, data, eventDataHeaders);
+            var eventData = new EventData(Uuid.NewUuid(), originalEventType, data, eventDataHeaders);
             return eventData;
         }
 
@@ -87,19 +87,14 @@ namespace Evento.Repository.Grpc
         {
             var streamName = AggregateToStreamName(aggregate.GetType(), aggregate.AggregateId);
             var events = aggregate.UncommitedEvents().ToList();
-            var originalVersion = CalculateExpectedVersion(aggregate, events);
-            var expectedVersion = originalVersion == 0 ? int.MaxValue : originalVersion - 1;
+            // TODO verify if we still need to calculate the version using grpc client
+            //var originalVersion = CalculateExpectedVersion(aggregate, events);
+            //var expectedVersion = originalVersion == 0 ? int.MaxValue : originalVersion - 1;
             var eventData = events.Select(CreateEventData).ToArray();
-            try
-            {
-                if (events.Count > 0)
-                    _connection.AppendToStreamAsync(streamName, new StreamRevision((ulong)expectedVersion), eventData).Wait();
-            }
-            catch (AggregateException)
-            {
-                // Try to save using ExpectedVersion.Any to swallow silently WrongExpectedVersion error
-                _connection.AppendToStreamAsync(streamName, StreamRevision.None, eventData).Wait();
-            }
+
+            if (events.Count > 0)
+                _connection.AppendToStreamAsync(streamName, StreamState.Any, eventData).Wait();
+
             aggregate.ClearUncommitedEvents();
             return events;
         }
