@@ -4,7 +4,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Riccardo Di Nuzzo</Authors>
     <Description>This library is used to build event sourced components applying event sourcing design pattern. It defines Command and Event, interfaces like IHandle to handle commands and AggregateBase to build domain specific aggregates.</Description>
-    <Version>5.2.0.0</Version>
+    <Version>5.1.0.0</Version>
     <Copyright>Copyright 2022</Copyright>
     <PackageLicenseUrl>https://github.com/riccardone/Evento/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/riccardone/Evento</PackageProjectUrl>
