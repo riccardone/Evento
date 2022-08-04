@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.0.0</Version>
+    <Authors>Riccardo Di Nuzzo</Authors>
+    <Company>Riccardo Di Nuzzo</Company>
+    <Description>This library contains a SecureEventStoreDomainRepository able to encrypt decrypt events in case the "encrypt" key is present in the event metadata. It needs an KeyReader and a CryptoService to be used for the security operations. These classes are to be implemented based on the provided interfaces. The purpose of this package combined with the base Evento package is to help developers building Event Sourced components using EventStore as database to persist events.</Description>
+    <Copyright>Copyright 2022</Copyright>
+    <PackageProjectUrl>https://github.com/riccardone/Evento.Secure.Repository</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/riccardone/Evento.Secure.Repository</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Encryption, Decryption, EventStore, Event Sourcing, DomainRepository, Repository, DDD</PackageTags>
+    <PackageReleaseNotes>Implement first version of the new SecureEventStoreDomainRepository to encrypt decrypt events</PackageReleaseNotes>
+    <EnableNETAnalyzers>False</EnableNETAnalyzers>
+    <AnalysisLevel>none</AnalysisLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="eventstore.client" Version="5.0.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Evento\Evento.csproj" />
+  </ItemGroup>
+
+</Project>
