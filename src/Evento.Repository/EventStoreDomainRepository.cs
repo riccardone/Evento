@@ -12,11 +12,22 @@ namespace Evento.Repository
     {
         public readonly string Category;
         private readonly IEventStoreConnection _connection;
+        private readonly IKeyReader _keyReader;
+        private readonly ICryptoService _cryptoService;
 
         public EventStoreDomainRepository(string category, IEventStoreConnection connection)
         {
             Category = category;
             _connection = connection;
+        }
+
+        public EventStoreDomainRepository(string category, IEventStoreConnection connection, IKeyReader keyReader,
+            ICryptoService cryptoService)
+        {
+            Category = category;
+            _connection = connection;
+            _keyReader = keyReader;
+            _cryptoService = cryptoService;
         }
 
         private string AggregateToStreamName(Type type, string id)
@@ -62,7 +73,7 @@ namespace Evento.Repository
             return BuildAggregate<TResult>(deserializedEvents);
         }
 
-        private static EventData CreateEventData(object @event)
+        private EventData CreateEventData(object @event)
         {
             IDictionary<string, string> metadata;
             var originalEventType = @event.GetType().Name;
@@ -83,9 +94,28 @@ namespace Evento.Repository
             else
                 throw new Exception("The event must have a $correlationId present in its metadata");
             var eventDataHeaders = SerializeObject(metadata);
-            var data = SerializeObject(@event);
+            byte[] data;
+            if (_cryptoService != null && _keyReader != null)
+            {
+                if (string.IsNullOrWhiteSpace(metadata["encrypt"]))
+                    throw new Exception("id not found in the encrypt metadata field");
+                var encryptionKey = _keyReader.Get(metadata["encrypt"]);
+                if (string.IsNullOrWhiteSpace(encryptionKey))
+                    throw new Exception("key not found with the given id");
+                data = SerializeAndEncryptObject(@event, encryptionKey);
+            }
+            else
+                data = SerializeObject(@event);
+
             var eventData = new EventData(Guid.NewGuid(), originalEventType, true, data, eventDataHeaders);
             return eventData;
+        }
+
+        private byte[] SerializeAndEncryptObject(object obj, string key)
+        {
+            var jsonString = JsonConvert.SerializeObject(obj);
+            var data = Encoding.UTF8.GetBytes(Convert.ToBase64String(_cryptoService.Encrypt(jsonString, key)));
+            return data;
         }
 
         private static byte[] SerializeObject(object obj)
