@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EventStore.ClientAPI;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Evento.Repository
 {
@@ -43,7 +44,7 @@ namespace Evento.Repository
                 throw new AggregateNotFoundException("Could not found aggregate of type " + typeof(TResult) +
                                                      " and id " + id);
             var deserializedEvents = await Task.Run(() => eventsSlice.Events.Select(e =>
-                SerializationUtils.DeserializeObject(e.OriginalEvent.Data, e.OriginalEvent.Metadata) as Event));
+                DeserializeObject(e.OriginalEvent.Data, e.OriginalEvent.Metadata) as Event));
             return await Task.Run(() => BuildAggregate<TResult>(deserializedEvents));
         }
 
@@ -69,7 +70,7 @@ namespace Evento.Repository
                 streamEvents.AddRange(currentSlice.Events);
             } while (!currentSlice.IsEndOfStream);
             var deserializedEvents = await Task.Run(() => streamEvents.Select(e =>
-                SerializationUtils.DeserializeObject(e.Event.Data, e.Event.Metadata) as Event));
+                DeserializeObject(e.Event.Data, e.Event.Metadata) as Event));
             return await Task.Run(() => BuildAggregate<TResult>(deserializedEvents));
         }
 
@@ -82,10 +83,10 @@ namespace Evento.Repository
                 metadata = ((Event)@event).Metadata;
                 if (!metadata.ContainsKey("$correlationId"))
                     throw new Exception("The event metadata must contains a $correlationId");
-                if (!metadata.ContainsKey(SerializationUtils.EventClrTypeHeader))
-                    metadata.Add(SerializationUtils.EventClrTypeHeader, @event.GetType().AssemblyQualifiedName);
+                if (!metadata.ContainsKey(EventClrTypeHeader))
+                    metadata.Add(EventClrTypeHeader, @event.GetType().AssemblyQualifiedName);
                 else
-                    metadata[SerializationUtils.EventClrTypeHeader] = @event.GetType().AssemblyQualifiedName;
+                    metadata[EventClrTypeHeader] = @event.GetType().AssemblyQualifiedName;
                 // Remove the metadata from the event body
                 var tmp = (IDictionary<string, object>)@event.ToDynamic();
                 tmp.Remove("Metadata");
@@ -143,6 +144,54 @@ namespace Evento.Repository
             }
             aggregate.ClearUncommitedEvents();
             return events;
+        }
+
+        public static string EventClrTypeHeader = "EventClrTypeName";
+
+        public static T DeserializeObject<T>(byte[] data)
+        {
+            return (T)(DeserializeObject(data, typeof(T).AssemblyQualifiedName));
+        }
+
+        public static object DeserializeObject(byte[] data, string typeName)
+        {
+            try
+            {
+                var jsonString = Encoding.UTF8.GetString(data);
+                return JsonConvert.DeserializeObject(jsonString, Type.GetType(typeName));
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        private object DeserializeObject(byte[] data, byte[] metadata)
+        {
+            try
+            {
+                var dict = DeserializeObject<Dictionary<string, string>>(metadata);
+                if (!dict.ContainsKey("$correlationId"))
+                    throw new Exception("The metadata must contains a $correlationId");
+                var bodyString = Encoding.UTF8.GetString(data);
+                if (dict.ContainsKey("encrypt"))
+                {
+                    if (string.IsNullOrWhiteSpace(dict["encrypt"]))
+                        throw new Exception("id not found in the encrypt metadata field");
+                    var encryptionKey = _keyReader.Get(dict["encrypt"]);
+                    if (string.IsNullOrWhiteSpace(encryptionKey))
+                        throw new Exception("key not found with the given id");
+                    bodyString = _cryptoService.Decrypt(Convert.FromBase64String(bodyString), encryptionKey);
+                }
+                var o1 = JObject.Parse(bodyString);
+                var o2 = JObject.Parse(JsonConvert.SerializeObject(new { metadata = dict }));
+                o1.Merge(o2, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
+                return JsonConvert.DeserializeObject(o1.ToString(), Type.GetType(dict[EventClrTypeHeader]));
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }
