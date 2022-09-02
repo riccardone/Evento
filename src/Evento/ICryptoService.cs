@@ -1,4 +1,4 @@
-﻿namespace Evento.Repository
+﻿namespace Evento
 {
     public interface ICryptoService
     {
