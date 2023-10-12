@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="eventstore.client" Version="21.2.1" />
+    <PackageReference Include="eventstore.client" Version="22.0.0" />
   </ItemGroup>
 
   <ItemGroup>

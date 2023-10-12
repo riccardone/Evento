@@ -15,9 +15,9 @@
     <PackageTags>EventStore, Event Sourcing, DomainRepository, Repository, DDD</PackageTags>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="eventstore.client" Version="21.2.1" />
+    <PackageReference Include="eventstore.client" Version="22.0.0" />
     <PackageReference Include="Microsoft.Csharp" Version="4.7.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Evento\Evento.csproj" />
