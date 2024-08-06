@@ -13,6 +13,8 @@
     <RepositoryUrl>https://github.com/riccardone/Evento.Repository</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>EventStore, Event Sourcing, DomainRepository, Repository, DDD</PackageTags>
+    <Nullable>enable</Nullable>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="eventstore.client" Version="22.0.0" />

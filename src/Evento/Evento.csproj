@@ -13,5 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>EventStore, DomainRepository, Aggregate, Command Handlers, Event Sourcing</PackageTags>
     <AssemblyVersion>4.3.0.0</AssemblyVersion>
+    <Nullable>enable</Nullable>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
 </Project>
