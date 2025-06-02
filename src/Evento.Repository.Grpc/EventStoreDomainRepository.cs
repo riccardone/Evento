@@ -45,7 +45,7 @@ namespace Evento.Repository.Grpc
             if (result.ReadState.Result == ReadState.StreamNotFound)
                 throw new AggregateNotFoundException("Could not found aggregate of type " + typeof(TResult) +
                                                      " and id " + correlationId);
-            var deserializedEvents = result.Select(e =>
+            var deserializedEvents = result.Where(x=>x.Event.EventType != "Test").Select(e =>
                 SerializationUtils.DeserializeObject(e.OriginalEvent.Data, e.OriginalEvent.Metadata) as Event).ToListAsync().Result;
             return BuildAggregate<TResult>(deserializedEvents);
         }
