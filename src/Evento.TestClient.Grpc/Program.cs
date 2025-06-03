@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Evento.Repository.Grpc;
-using EventStore.Client;
+using KurrentDB.Client;
 using Newtonsoft.Json;
 
 namespace Evento.TestClient.Grpc
@@ -20,9 +20,9 @@ namespace Evento.TestClient.Grpc
                 var port = 2113;
                 if (args.Length > 0 && int.TryParse(args[0], out port))
                     Console.WriteLine($"Connecting to localhost on port {port}");
-                var settings = EventStoreClientSettings.Create($"esdb://admin:changeit@127.0.0.1:{port}?tls=false");
+                var settings = KurrentDBClientSettings.Create($"esdb://admin:changeit@127.0.0.1:{port}?tls=false");
                 settings.ConnectivitySettings.Insecure = true;
-                var conn = new EventStoreClient(settings);
+                var conn = new KurrentDBClient(settings);
                 _repository = new EventStoreDomainRepository(Category, conn);
                 var agg = CreateOrGetAggregate(conn);
                 var events = conn.ReadStreamAsync(Direction.Forwards, AggregateName, StreamPosition.Start).CountAsync().Result;
@@ -40,7 +40,7 @@ namespace Evento.TestClient.Grpc
             Console.ReadLine();
         }
 
-        private static void AppendEvents(EventStoreClient conn)
+        private static void AppendEvents(KurrentDBClient conn)
         {
             conn.AppendToStreamAsync(InputStream, StreamState.Any,
                 new[] { CreateSample(1), CreateSample(2), CreateSample(3) }).Wait();
@@ -55,7 +55,7 @@ namespace Evento.TestClient.Grpc
             return eventPayload;
         }
 
-        private static IAggregate CreateOrGetAggregate(EventStoreClient conn)
+        private static IAggregate CreateOrGetAggregate(KurrentDBClient conn)
         {
             IAggregate aggregate = null;
             try

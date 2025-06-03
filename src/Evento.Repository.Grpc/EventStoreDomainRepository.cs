@@ -1,15 +1,15 @@
 using System.Text;
-using EventStore.Client;
+using KurrentDB.Client;
 using Newtonsoft.Json;
 
 namespace Evento.Repository.Grpc
 {
     public class EventStoreDomainRepository : DomainRepositoryBase
     {
-        readonly EventStoreClient _connection;
+        readonly KurrentDBClient _connection;
         private readonly string _category;
 
-        public EventStoreDomainRepository(string category, EventStoreClient eventStoreClient)
+        public EventStoreDomainRepository(string category, KurrentDBClient eventStoreClient)
         {
             _connection = eventStoreClient;
             _category = category;
