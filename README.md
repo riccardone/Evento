@@ -69,7 +69,7 @@ The workflow will:
 - Commit the version bump and create an `evento-<version>` tag
 
 ### Publish Evento.Repository.Grpc (recommended)
-Same steps as above but use **Actions → Publish Evento.Repository.Grpc**.  
+Same steps as above but use **Actions → Publish Evento.Repository.Grpc**
 A `repository-grpc-<version>` tag is created on completion.
 
 ### Publish Evento.Repository (legacy)
