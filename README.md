@@ -4,7 +4,7 @@
 
 This C# .Net Standard library can be used to build components based on Event Sourcing patterns. It can be considered a small toolbox as it provides few types and a Repository. The types are Command and Event and can help to better structure the flow of your data. It's lightweight and you can just copy and paste the code in your component codebase to avoid adding a dependency. In that way you can easily tailor made the features on your needs.   
   
-It is not related to a particular storage. There is a Repository implementation using EventStore https://github.com/EventStore/EventStore 
+It is not related to a particular storage. There is a Repository implementation using KurrentDb formerly called EventStore https://github.com/kurrent-io/KurrentDB 
   
 You can find more info in my blog http://www.dinuzzo.co.uk/2017/04/28/domain-driven-design-event-sourcing-and-micro-services-explained-for-developers/  
   
