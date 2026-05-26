@@ -1,4 +1,7 @@
 # Evento
+
+[![CI](https://github.com/riccardone/Evento/actions/workflows/ci.yml/badge.svg)](https://github.com/riccardone/Evento/actions/workflows/ci.yml)
+
 This C# .Net Standard library can be used to build components based on Event Sourcing patterns. It can be considered a small toolbox as it provides few types and a Repository. The types are Command and Event and can help to better structure the flow of your data. It's lightweight and you can just copy and paste the code in your component codebase to avoid adding a dependency. In that way you can easily tailor made the features on your needs.   
   
 It is not related to a particular storage. There is a Repository implementation using EventStore https://github.com/EventStore/EventStore 
@@ -7,28 +10,75 @@ You can find more info in my blog http://www.dinuzzo.co.uk/2017/04/28/domain-dri
   
 The 'Evento' library has no-dependencies therefore it can be referenced by Domain projects and Application Service projects.
 You can see a Sample project showing how to use this library https://github.com/riccardone/Evento.Samples  
-  
-You can reference this project using Nuget  
+
+## Packages
+
+| Package | Target | Description |
+|---|---|---|
+| `Evento` | netstandard2.0 | Core types: Command, Event, AggregateBase, IDomainRepository |
+| `Evento.Repository` | netstandard2.0 | Legacy. EventStoreDomainRepository using the TCP `EventStore.Client` |
+| `Evento.Repository.Grpc` | net8.0 | Recommended. EventStoreDomainRepository using `KurrentDB.Client` (gRPC) |
+
+## Installation
+
+### Core library
 ```
-PM> Install-Package Evento  
+PM> Install-Package Evento
+```
+```
+dotnet add package Evento
 ```
 
-# Evento.Repository
-There is a working Repository EventStoreDomainRepository with external dependencies to EventStore.Client v20.X and Newton.Json. This library can be referenced and used in the top level host process application and injected into any Application Service that requires an IDomainRepository.  
-  
-Current EventStore.Client: v21.2.1  
-  
-You can reference this project using Nuget  
+### gRPC repository (recommended)
+```
+PM> Install-Package Evento.Repository.Grpc
+```
+```
+dotnet add package Evento.Repository.Grpc
+```
+
+### Legacy TCP repository
 ```
 PM> Install-Package Evento.Repository
-```  
-  
-For old eventstore 5.x version please install the package specifying the latest evento.repository v5 
+```
+```
+dotnet add package Evento.Repository
+```
+
+For old EventStore 5.x please install the legacy package pinned to v5:
 ```
 PM> Install-Package Evento.Repository -Version 5.1.0
 ```
 
-# Use the EventStore DomainRepository
+## Cutting a Release
+
+Releases are published to NuGet via GitHub Actions and triggered manually.
+
+### Prerequisites
+- A `NUGET_API_KEY` secret must be set in the repository under *Settings → Secrets and variables → Actions*
+
+### Publish Evento
+1. Go to **Actions → Publish Evento → Run workflow**
+2. Leave the version field **empty** to auto-bump the patch (e.g. `5.2.0` → `5.2.1`), or enter a specific version (e.g. `5.3.0`) for a minor/major bump
+3. Click **Run workflow**
+
+The workflow will:
+- Update the version in the `.csproj`
+- Build and pack the NuGet package
+- Push it to [NuGet.org](https://www.nuget.org)
+- Commit the version bump and create an `evento-<version>` tag
+
+### Publish Evento.Repository.Grpc (recommended)
+Same steps as above but use **Actions → Publish Evento.Repository.Grpc**.  
+A `repository-grpc-<version>` tag is created on completion.
+
+### Publish Evento.Repository (legacy)
+Same steps as above but use **Actions → Publish Evento.Repository**.  
+A `repository-<version>` tag is created on completion.
+
+---
+
+## Use the EventStore DomainRepository
 
 The IDomainRepository interface expose two methods: 'Save' and GetById. The Save method take an IAggregate as parameter and a correlationId. 
 The correlationId is used to link toghether the events that are part of the same conversation. It defines the AggregateId and when the events are stored in EventStore it is used to define the StreamId.

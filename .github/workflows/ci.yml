@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Restore
+        run: dotnet restore src/Evento.sln
+
+      - name: Build
+        run: dotnet build src/Evento.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test src/Evento.Tests/Evento.Tests.csproj --configuration Release --no-build --verbosity normal

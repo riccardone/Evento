@@ -1,0 +1,66 @@
+name: Publish Evento
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g. 5.3.0). Leave empty to auto-bump patch.'
+        required: false
+        default: ''
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    env:
+      CSPROJ: src/Evento/Evento.csproj
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            NEW_VERSION="${{ github.event.inputs.version }}"
+          else
+            CURRENT=$(grep -oP '(?<=<Version>)[^<]+' ${{ env.CSPROJ }})
+            MAJOR=$(echo $CURRENT | cut -d. -f1)
+            MINOR=$(echo $CURRENT | cut -d. -f2)
+            PATCH=$(echo $CURRENT | cut -d. -f3)
+            NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
+          fi
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "Publishing version $NEW_VERSION"
+
+      - name: Update version in csproj
+        run: |
+          sed -i "s|<Version>.*</Version>|<Version>${{ steps.version.outputs.new_version }}</Version>|" ${{ env.CSPROJ }}
+
+      - name: Build
+        run: dotnet build ${{ env.CSPROJ }} --configuration Release
+
+      - name: Pack
+        run: dotnet pack ${{ env.CSPROJ }} --configuration Release --no-build --output ./nupkgs
+
+      - name: Push to NuGet
+        run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Commit version bump and tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ${{ env.CSPROJ }}
+          git commit -m "chore: bump Evento version to ${{ steps.version.outputs.new_version }}"
+          git tag "evento-${{ steps.version.outputs.new_version }}"
+          git push origin HEAD --tags
